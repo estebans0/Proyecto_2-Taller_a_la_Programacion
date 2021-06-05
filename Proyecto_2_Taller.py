@@ -7,4 +7,6 @@ raiz_juego = Tk()
 
 print("Prueba")
 
+print("Prueba 2")
+
 raiz_juego.mainloop()
