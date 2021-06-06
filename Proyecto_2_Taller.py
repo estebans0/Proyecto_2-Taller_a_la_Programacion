@@ -150,5 +150,4 @@ def cerrar_juego():
 Boton_cerrar = Button(canvas_raiz, text = "Salir", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = cerrar_juego)
 Boton_cerrar.place(x = 800, y = 500)
 
-
 raiz_juego.mainloop()
