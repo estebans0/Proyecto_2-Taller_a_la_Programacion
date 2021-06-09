@@ -183,16 +183,16 @@ def funcion_jugar():
             
             # Botón "Atrás" de la pantalla de ayuda:
             Boton_atras_ayuda = Button(canvas_ayuda, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras_ayuda)
-            Boton_atras_ayuda.place(x = 550, y = 500)
+            Boton_atras_ayuda.place(x = 10, y = 655)
 
         # Botones de la pantalla complementaria:
         # Botón de la pantalla de ayuda:
         Boton_ayuda = Button(canvas_comp, text = "Ayuda", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = pantalla_ayuda)
-        Boton_ayuda.place(x = 550, y = 500)
+        Boton_ayuda.place(x = 1288, y = 655)
 
         # Botón "Atrás" de la pantalla complementaria:
         Boton_atras_comp = Button(canvas_comp, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras_comp)
-        Boton_atras_comp.place(x = 650, y = 500)
+        Boton_atras_comp.place(x = 10, y = 655)
         
     # Función del botón "Puntajes"
     def mejores_puntajes():
@@ -214,7 +214,7 @@ def funcion_jugar():
         
         # Botón "Atrás" de la pantalla de puntajes:
         Boton_atras_puntajes = Button(canvas_puntajes, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras_puntajes)
-        Boton_atras_puntajes.place(x = 550, y = 500)
+        Boton_atras_puntajes.place(x = 10, y = 655)
     
     # Función del botón "Niveles" (selección de niveles):
     def seleccion_niveles():
@@ -251,9 +251,18 @@ def funcion_jugar():
             # Escenario (fondo) del primer nivel:
             # canvas_nivel_1.create_image(0, 0, anchor = NW, image = bg_level1)
 
+            # Parámetros para la creación de la partida/juego (Nivel 1):
+            # Nombre jugador:
+            # nombre_de_jugador = nombre_jugador.get()
+            # print(nombre_de_jugador)
+
             # Función del botón "Atrás" de la pantalla del nivel 1:
             def atras_nivel_1():
                 pantalla_nivel_1.destroy()
+            
+            # Botón "Atrás" de la pantalla del nivel 1:
+            atras_n1 = Button(canvas_nivel_1, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras_nivel_1)
+            atras_n1.place(x = 10, y = 655)
 
         # Pantalla del segundo nivel:
         def Nivel_2():
@@ -270,9 +279,18 @@ def funcion_jugar():
             # Escenario (fondo) del segundo nivel:
             # canvas_nivel_2.create_image(0, 0, anchor = NW, image = bg_level1)
 
+            # Parámetros para la creación de la partida/juego (Nivel 2):
+            # Nombre jugador:
+            # nombre_de_jugador = nombre_jugador.get()
+            # print(nombre_de_jugador)
+
             # Función del botón "Atrás" de la pantalla del nivel 2:
             def atras_nivel_2():
                 pantalla_nivel_2.destroy()
+
+            # Botón "Atrás" de la pantalla del nivel 2:
+            atras_n2 = Button(canvas_nivel_2, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras_nivel_2)
+            atras_n2.place(x = 10, y = 655)
 
         # Pantalla del tercer nivel:
         def Nivel_3():
@@ -288,10 +306,19 @@ def funcion_jugar():
 
             # Escenario (fondo) del tercer nivel:
             # canvas_nivel_3.create_image(0, 0, anchor = NW, image = bg_level1)
+    
+            # Parámetros para la creación de la partida/juego (Nivel 1):
+            # Nombre jugador:
+            # nombre_de_jugador = nombre_jugador.get()
+            # print(nombre_de_jugador)
 
             # Función del botón "Atrás" de la pantalla del nivel 3:
             def atras_nivel_3():
                 pantalla_nivel_3.destroy()
+            
+            # Botón "Atrás" de la pantalla del nivel 1:
+            atras_n3 = Button(canvas_nivel_3, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras_nivel_3)
+            atras_n3.place(x = 10, y = 655)
 
         # Botones de la pantalla de selección de niveles:
         # Botón que dirige a la pantalla del primer nivel:
@@ -308,31 +335,37 @@ def funcion_jugar():
 
         # Botón "Jugar" de la pantalla de selección (inicia el juego en el nivel 1):
         Boton_jugar_seleccion = Button(canvas_niveles, text = "Jugar", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = Nivel_1)
-        Boton_jugar_seleccion.place(x = 850, y = 500)
+        Boton_jugar_seleccion.place(x = 1288, y = 655)
 
         # Botón "Atrás" de la pantalla de selección:
         Boton_atras_seleccion = Button(canvas_niveles, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras_niveles)
-        Boton_atras_seleccion.place(x = 950, y = 500)
+        Boton_atras_seleccion.place(x = 10, y = 655)
 
+        # Entry para que el jugador introduzca su nombre:
+        # Label (etiqueta) con el texto "Introduzca su nombre":
+        Label(canvas_niveles, text = "Introduzca su nombre:", bg = "Black", fg = "White").place(x = 560, y = 600)
+    
+        # Entry sobre el que se digita el nombre:
+        nombre_jugador = Entry(canvas_niveles, text = "Introduzca su nombre:", bg = "White")
+        nombre_jugador.place(x = 690, y = 600) 
 
     # Botones de la pantalla de selección:
     # Botón de la pantalla complementaria:
     Boton_complemento = Button(canvas_seleccion, text = "About", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = complementaria)
-    Boton_complemento.place(x = 550, y = 500)
+    Boton_complemento.place(x = 550, y = 350)
 
     # Botón de la pantalla de mejores puntajes:
     Boton_puntajes = Button(canvas_seleccion, text = "Puntajes", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = mejores_puntajes)
-    Boton_puntajes.place(x = 650, y = 500) 
+    Boton_puntajes.place(x = 655, y = 350) 
 
     # Botón de la pantalla de selección de niveles:
     Boton_niveles = Button(canvas_seleccion, text = "Niveles", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = seleccion_niveles)
-    Boton_niveles.place(x = 750, y = 500)
+    Boton_niveles.place(x = 780, y = 350)
 
     # Botón para regresar a la pantalla de inicio:
     Boton_atras_seleccion = Button(canvas_seleccion, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras_seleccion)
-    Boton_atras_seleccion.place(x = 850, y = 500)       
-
-
+    Boton_atras_seleccion.place(x = 10, y = 655)  
+    
 # Botón "Jugar" de la pantalla incial:
 Boton_jugar = Button(canvas_raiz, text = "Jugar", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = funcion_jugar)
 Boton_jugar.place(x = 550, y = 500)
