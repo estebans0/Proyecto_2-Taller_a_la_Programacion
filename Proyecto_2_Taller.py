@@ -140,10 +140,10 @@ bg_nivel3 = PhotoImage(file ="bg_nivel3.png")
 # Fondo puntajes
 bg_puntajes = PhotoImage(file ="bg_puntajes.png")
 
-# Sprite nave
-sprite_nave = PhotoImage(file ="spaceship.png")
+#Sprites
+sprite_naveJugador = PhotoImage(file ="sprite_nave.png")
 
-sprite_asteroides = PhotoImage(file ="asteroide.png")
+sprite_asteroides = PhotoImage(file ="sprite_asteroide.png")
 
 # Botones de la raíz (Jugar y Cerrar):
 # Funciones de los botones:
