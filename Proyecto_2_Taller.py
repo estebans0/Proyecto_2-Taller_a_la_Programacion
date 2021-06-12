@@ -116,6 +116,7 @@ raiz_juego.geometry("1366x768")
 
 raiz_juego.config(cursor = "star")
 
+# Fondo de la raiz
 bg_principal = PhotoImage(file ="bg_raiz.png")
 
 # Fondos de los niveles
@@ -124,6 +125,9 @@ bg_nivel1 = PhotoImage(file ="bg_nivel1.png")
 bg_nivel2 = PhotoImage(file ="bg_nivel2.png")
 
 bg_nivel3 = PhotoImage(file ="bg_nivel3.png")
+
+# Fondo puntajes
+bg_puntajes = PhotoImage(file ="bg_puntajes.png")
 
 # Canvas sobre el que se colocarán imágenes y demás widgets:
 canvas_raiz = Canvas(raiz_juego, width = 1366, height = 768, bg = "Black") # Agregar fondo
@@ -230,7 +234,7 @@ def funcion_jugar():
         canvas_puntajes.pack()
 
         # Fondo puntajes
-        canvas_puntajes.create_image(0, 0, anchor=NW, image=bg_principal)
+        canvas_puntajes.create_image(0, 0, anchor=NW, image=bg_puntajes)
 
         # Función del botón "Atrás" de la pantalla de mejores puntajes:
         def atras_puntajes():
