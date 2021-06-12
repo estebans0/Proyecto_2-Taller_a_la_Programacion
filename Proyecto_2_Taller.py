@@ -116,8 +116,19 @@ raiz_juego.geometry("1366x768")
 
 raiz_juego.config(cursor = "star")
 
+# Canvas sobre el que se colocarán imágenes y demás widgets:
+canvas_raiz = Canvas(raiz_juego, width = 1366, height = 768, bg = "Black") # Agregar fondo
+canvas_raiz.pack()
+
+# Labels de la raíz:
+# Licencia:
+Label(canvas_raiz, text = "©2021 TEC CR., LTD. All Rights Reserved.", bg = "Black", font = ("Impact", 15), fg = "White").place(x = 550, y = 650)
+
 # Fondo de la raiz
 bg_principal = PhotoImage(file ="bg_raiz.png")
+
+# Fondo de la raiz
+canvas_raiz.create_image(0, 0, anchor = NW, image = bg_principal)
 
 # Fondos de los niveles
 bg_nivel1 = PhotoImage(file ="bg_nivel1.png")
@@ -129,16 +140,10 @@ bg_nivel3 = PhotoImage(file ="bg_nivel3.png")
 # Fondo puntajes
 bg_puntajes = PhotoImage(file ="bg_puntajes.png")
 
-# Canvas sobre el que se colocarán imágenes y demás widgets:
-canvas_raiz = Canvas(raiz_juego, width = 1366, height = 768, bg = "Black") # Agregar fondo
-canvas_raiz.pack()
+# Sprite nave
+sprite_nave = PhotoImage(file ="spaceship.png")
 
-# Fondo de la raiz
-canvas_raiz.create_image(0, 0, anchor = NW, image = bg_principal)
-
-# Labels de la raíz:
-# Licencia:
-Label(canvas_raiz, text = "©2021 TEC CR., LTD. All Rights Reserved.", bg = "Black", font = ("Impact", 15), fg = "White").place(x = 550, y = 650)
+sprite_asteroides = PhotoImage(file ="asteroide.png")
 
 # Botones de la raíz (Jugar y Cerrar):
 # Funciones de los botones:
