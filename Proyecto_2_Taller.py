@@ -116,14 +116,21 @@ raiz_juego.geometry("1366x768")
 
 raiz_juego.config(cursor = "star")
 
-fondo_raiz = PhotoImage(file = "fondo_raiz.png")
+bg_principal = PhotoImage(file ="bg_raiz.png")
+
+# Fondos de los niveles
+bg_nivel1 = PhotoImage(file ="bg_nivel1.png")
+
+bg_nivel2 = PhotoImage(file ="bg_nivel2.png")
+
+bg_nivel3 = PhotoImage(file ="bg_nivel3.png")
 
 # Canvas sobre el que se colocarán imágenes y demás widgets:
 canvas_raiz = Canvas(raiz_juego, width = 1366, height = 768, bg = "Black") # Agregar fondo
 canvas_raiz.pack()
 
 # Fondo de la raiz
-canvas_raiz.create_image(0, 0, anchor = NW, image = fondo_raiz)
+canvas_raiz.create_image(0, 0, anchor = NW, image = bg_principal)
 
 # Labels de la raíz:
 # Licencia:
@@ -145,8 +152,8 @@ def funcion_jugar():
     canvas_seleccion = Canvas(pantalla_seleccion, width = 1366, height = 768, bg = "Black")
     canvas_seleccion.pack()
 
-    # Fondo
-    canvas_seleccion.create_image(0, 0, anchor=NW, image=fondo_raiz)
+    # Fondo seleccion
+    canvas_seleccion.create_image(0, 0, anchor=NW, image=bg_principal)
 
     # Funciones de los botones en pantalla de selección:
     # Función del botón "Atrás" de la pantalla de selección:
@@ -167,6 +174,9 @@ def funcion_jugar():
         canvas_comp = Canvas(pantalla_comp, width = 1366, height = 768, bg = "Black")
         canvas_comp.pack()
 
+        # Fondo complementaria
+        canvas_comp.create_image(0, 0, anchor=NW, image=bg_principal)
+
         # Función del botón "Atras" de la pantalla complementaria:
         def atras_comp():
             pantalla_comp.destroy()
@@ -184,6 +194,9 @@ def funcion_jugar():
             # Canvas pantalla "Ayuda":
             canvas_ayuda = Canvas(pantalla_de_ayuda, width = 1366, height = 768, bg = "Black")
             canvas_ayuda.pack()
+
+            # Fondo ayuda
+            canvas_ayuda.create_image(0, 0, anchor=NW, image=bg_principal)
 
             # Función del botón "Atrás" de la pantalla de ayuda:
             def atras_ayuda():
@@ -216,6 +229,9 @@ def funcion_jugar():
         canvas_puntajes = Canvas(pantalla_puntajes, width = 1366, height = 768, bg = "Black")
         canvas_puntajes.pack()
 
+        # Fondo puntajes
+        canvas_puntajes.create_image(0, 0, anchor=NW, image=bg_principal)
+
         # Función del botón "Atrás" de la pantalla de mejores puntajes:
         def atras_puntajes():
             pantalla_puntajes.destroy()
@@ -238,6 +254,9 @@ def funcion_jugar():
         canvas_niveles = Canvas(pantalla_niveles, width = 1366, height = 768, bg = "Black")
         canvas_niveles.pack()
 
+        # Fondo niveles
+        canvas_niveles.create_image(0, 0, anchor=NW, image=bg_principal)
+
         # Funciones de los botones de la pantalla de selección de niveles:
         # Botón "Atrás" de la pantalla de selección de niveles:
         def atras_niveles():
@@ -257,7 +276,7 @@ def funcion_jugar():
             canvas_nivel_1.pack()
 
             # Escenario (fondo) del primer nivel:
-            # canvas_nivel_1.create_image(0, 0, anchor = NW, image = bg_level1)
+            canvas_nivel_1.create_image(0, 0, anchor = NW, image = bg_nivel1)
 
             # Parámetros para la creación de la partida/juego (Nivel 1):
             # Nombre jugador:
@@ -285,7 +304,7 @@ def funcion_jugar():
             canvas_nivel_2.pack()
 
             # Escenario (fondo) del segundo nivel:
-            # canvas_nivel_2.create_image(0, 0, anchor = NW, image = bg_level1)
+            canvas_nivel_2.create_image(0, 0, anchor = NW, image = bg_nivel2)
 
             # Parámetros para la creación de la partida/juego (Nivel 2):
             # Nombre jugador:
@@ -313,7 +332,7 @@ def funcion_jugar():
             canvas_nivel_3.pack()
 
             # Escenario (fondo) del tercer nivel:
-            # canvas_nivel_3.create_image(0, 0, anchor = NW, image = bg_level1)
+            canvas_nivel_3.create_image(0, 0, anchor = NW, image = bg_nivel3)
     
             # Parámetros para la creación de la partida/juego (Nivel 1):
             # Nombre jugador:
