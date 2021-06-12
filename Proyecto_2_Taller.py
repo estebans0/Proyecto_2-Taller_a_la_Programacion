@@ -116,9 +116,14 @@ raiz_juego.geometry("1366x768")
 
 raiz_juego.config(cursor = "star")
 
+fondo_raiz = PhotoImage(file = "fondo_raiz.png")
+
 # Canvas sobre el que se colocarán imágenes y demás widgets:
 canvas_raiz = Canvas(raiz_juego, width = 1366, height = 768, bg = "Black") # Agregar fondo
 canvas_raiz.pack()
+
+# Fondo de la raiz
+canvas_raiz.create_image(0, 0, anchor = NW, image = fondo_raiz)
 
 # Labels de la raíz:
 # Licencia:
@@ -139,6 +144,9 @@ def funcion_jugar():
     # Canvas, pantalla de selección:
     canvas_seleccion = Canvas(pantalla_seleccion, width = 1366, height = 768, bg = "Black")
     canvas_seleccion.pack()
+
+    # Fondo
+    canvas_seleccion.create_image(0, 0, anchor=NW, image=fondo_raiz)
 
     # Funciones de los botones en pantalla de selección:
     # Función del botón "Atrás" de la pantalla de selección:
