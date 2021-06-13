@@ -18,7 +18,7 @@ class Jugador:
     # Movimiento horizontal:
     def movimiento_derecho(self, pixeles): # Los "pixeles" indican cuánto se moverá la nave sobre la pantalla
 
-        if (self.posicion_x + pixeles < 1000): # Marca un límite, si el jugador se pasa del mismo, no se moverá más
+        if (self.posicion_x + pixeles < 1300): # Marca un límite, si el jugador se pasa del mismo, no se moverá más
             self.posicion_x = self.posicion_x + pixeles
             return pixeles
         else:
@@ -43,7 +43,7 @@ class Jugador:
     
     def movimiento_abajo(self, pixeles):
 
-        if (self.posicion_y + pixeles < 700):
+        if (self.posicion_y + pixeles < 650):
             self.posicion_y = self.posicion_y + pixeles
             return pixeles
         else:
@@ -104,6 +104,58 @@ class Nivel3:
         self.label_jugador = None
         self.label_tiempo = None
 
+# Funciones importantes (renderización, actualización, movimiento):
+# Función de renderización:
+def renderizacion(nivel, canvas_nivel, pantalla_nivel):
+
+    # La siguiente condición renderizará ("dibujará") la nave del jugador en la pantalla del nivel en caso de que este proceso aún no se haya llevado a cabo.
+    if nivel.jugador.canvas == "":
+        nave_jugador_canvas = canvas_nivel.create_image(nivel.jugador.posicion_x, nivel.jugador.posicion_y, anchor = NW, image = nivel.jugador.sprite) # Se posicionará la nave en la posición que se haya especificado al crear el objeto.
+        nivel.jugador.canvas = nave_jugador_canvas
+
+        # Funciones que renderizarán el movimiento del jugador (cada vez que el jugador se mueva, lo dibujará en la posición exacta, dando ese efecto de movimiento)
+        def movimiento_hacia_derecha(event):
+            y = 0
+            x = nivel.jugador.movimiento_derecho(10) # Note que la coordenada sobre la que ocurrirá el movimiento se llaman los métodos de movimiento definidos en la clase de jugador. Estos métodos cada vez que la nave se mueva irán evaluando que esta no llegue al límite establecido.
+            canvas_nivel.move(nave_jugador_canvas, x, y)
+        
+        def movimiento_hacia_izquierda(event):
+            y = 0
+            x = nivel.jugador.movimiento_izquierdo(10) * -1 # Note que para el movimiento izquierdo, se cambia la dirección de la nave multiplicando un -1
+            canvas_nivel.move(nave_jugador_canvas, x, y)
+        
+        def movimiento_hacia_arriba(event):
+            x = 0
+            y = nivel.jugador.movimiento_arriba(10) * -1 # Similar a la función anterior, se utiliza un -1 para que los pixeles no se sumen, sino que se resten para así permitir que la nave suba
+            canvas_nivel.move(nave_jugador_canvas, x, y)
+        
+        def movimiento_hacia_abajo(event):
+            x = 0
+            y = nivel.jugador.movimiento_abajo(10)
+            canvas_nivel.move(nave_jugador_canvas, x, y) 
+        
+        # Asignación de teclas para el movimiento del jugador:
+        pantalla_nivel.bind("<Right>", movimiento_hacia_derecha)
+        pantalla_nivel.bind("<Left>", movimiento_hacia_izquierda)
+        pantalla_nivel.bind("<Up>", movimiento_hacia_arriba)
+        pantalla_nivel.bind("<Down>", movimiento_hacia_abajo)
+
+        # Renderización de las etiquetas que aparecerán en la pantalla de juego:
+        if nivel.label_jugador == None and nivel.label_tiempo == None:
+            # Etiqueta en la que se visualizará la vida y nombre del jugador:
+            etiqueta_jugador = Label(canvas_nivel, text = "{}: {}".format(nivel.jugador.nombre_jugador, nivel.jugador.vidas), bg = "Black", fg = "White", font = ("Impact", 15))
+            etiqueta_jugador.place(x = 20, y = 200)
+
+            # Etiqueta en la que se visualizará el tiempo trasncurrido:
+            etiqueta_tiempo = Label(canvas_nivel, text = "Tiempo transcurrido: {}".format(nivel.tiempo_de_inicio), bg = "Black", fg = "White", font = ("Impact", 15))
+            etiqueta_tiempo.place(x = 20, y = 250)
+
+            # Etiqueta en la que se visualizará el nivel
+            etiqueta_nivel = Label(canvas_nivel, text = "Nivel: {}".format(nivel.nivel), bg = "Black", fg = "White", font = ("Impact", 15))
+            etiqueta_nivel.place(x = 20, y = 300)
+
+            # Agregar etiqueta de puntaje:
+
 # Creamos la raíz sobre la que se desarrollará el videojuego. 
 raiz_juego = Tk()
 
@@ -138,7 +190,7 @@ bg_nivel2 = PhotoImage(file ="bg_nivel2.png")
 bg_nivel3 = PhotoImage(file ="bg_nivel3.png")
 
 # Fondo puntajes
-bg_puntajes = PhotoImage(file ="bg_puntajes.png")
+bg_puntajes = PhotoImage(file ="bg_raiz.png")
 
 #Sprites
 sprite_naveJugador = PhotoImage(file ="sprite_nave.png")
@@ -289,8 +341,23 @@ def funcion_jugar():
 
             # Parámetros para la creación de la partida/juego (Nivel 1):
             # Nombre jugador:
-            # nombre_de_jugador = nombre_jugador.get()
-            # print(nombre_de_jugador)
+            nombre_de_jugador = nombre_jugador.get()
+            
+            # Prueba
+            # Creación del jugador:
+            jugador = Jugador(nombre_de_jugador, 3, sprite_naveJugador, 620, 585)
+
+            # Creación asteroides:
+            asteroide1 = ""
+            asteroide2 = ""
+            asteroide3 = ""
+
+            # Creación del nivel:
+            primer_nivel = Nivel1(jugador, asteroide1, asteroide2, asteroide3, datetime.datetime.now())
+
+            # Llamada para renderizar
+            renderizacion(primer_nivel, canvas_nivel_1, pantalla_nivel_1)
+            # Prueba
 
             # Función del botón "Atrás" de la pantalla del nivel 1:
             def atras_nivel_1():
