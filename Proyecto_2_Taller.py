@@ -132,14 +132,27 @@ def renderizacion(nivel, canvas_nivel, pantalla_nivel):
         def movimiento_hacia_abajo(event):
             x = 0
             y = nivel.jugador.movimiento_abajo(10)
-            canvas_nivel.move(nave_jugador_canvas, x, y) 
-        
+            canvas_nivel.move(nave_jugador_canvas, x, y)
+
         # Asignación de teclas para el movimiento del jugador:
         pantalla_nivel.bind("<Right>", movimiento_hacia_derecha)
         pantalla_nivel.bind("<Left>", movimiento_hacia_izquierda)
         pantalla_nivel.bind("<Up>", movimiento_hacia_arriba)
         pantalla_nivel.bind("<Down>", movimiento_hacia_abajo)
+        
+        # Cargar y renderizar canvas de los asteroides:
+        # Nivel 1:
+        if nivel.nivel == 1:
+            if nivel.asteroide_1.canvas == "" and nivel.asteroide_2.canvas == "" and nivel.asteroide_3.canvas == "":
+                asteroide1 = canvas_nivel.create_image(nivel.asteroide_1.posicion_x, nivel.asteroide_1.posicion_y, anchor = NW, image = nivel.asteroide_1.sprite)
+                nivel.asteroide_1.canvas = asteroide1
 
+                asteroide2 = canvas_nivel.create_image(nivel.asteroide_2.posicion_x, nivel.asteroide_2.posicion_y, anchor = NW, image = nivel.asteroide_2.sprite)
+                nivel.asteroide_2.canvas = asteroide2
+
+                asteroide3 = canvas_nivel.create_image(nivel.asteroide_3.posicion_x, nivel.asteroide_3.posicion_y, anchor = NW, image = nivel.asteroide_3.sprite)
+                nivel.asteroide_3.canvas = asteroide3
+        
         # Renderización de las etiquetas que aparecerán en la pantalla de juego:
         if nivel.label_jugador == None and nivel.label_tiempo == None:
             # Etiqueta en la que se visualizará la vida y nombre del jugador:
@@ -155,6 +168,147 @@ def renderizacion(nivel, canvas_nivel, pantalla_nivel):
             etiqueta_nivel.place(x = 20, y = 300)
 
             # Agregar etiqueta de puntaje:
+
+# Funciones del ciclo del juego: Prueba ----------------------------------------------------------------
+# Movimiento asteroides:
+def movimiento_asteroides(nivel, canvas_nivel, pantalla_nivel):
+
+    if nivel.nivel == 1:
+        # Asteroide 1:
+        nivel.asteroide_1.posicion_x += (10 * nivel.asteroide_1.direccion)
+        canvas_nivel.move(nivel.asteroide_1.canvas, 10 * nivel.asteroide_1.direccion, 0)
+
+        if(nivel.asteroide_1.posicion_x > 1000):
+            nivel.asteroide_1.direccion = -1
+        elif (nivel.asteroide_1.posicion_x < 100):
+            nivel.asteroide_1.direccion = 1
+
+        # Asteroide 2:
+        nivel.asteroide_2.posicion_x += (10 * nivel.asteroide_2.direccion)
+        canvas_nivel.move(nivel.asteroide_2.canvas, 10 * nivel.asteroide_2.direccion, 0)
+
+        if(nivel.asteroide_2.posicion_x > 1000):
+            nivel.asteroide_2.direccion = -1
+        elif (nivel.asteroide_2.posicion_x < 100):
+            nivel.asteroide_2.direccion = 1
+
+        # Asteroide 3:
+        nivel.asteroide_3.posicion_x += (10 * nivel.asteroide_3.direccion)
+        canvas_nivel.move(nivel.asteroide_3.canvas, 10 * nivel.asteroide_3.direccion, 0)
+
+        if(nivel.asteroide_3.posicion_x > 1000):
+            nivel.asteroide_3.direccion = -1
+        elif (nivel.asteroide_3.posicion_x < 100):
+            nivel.asteroide_3.direccion = 1
+# Prueba -----------------------------------------------------------------------------
+
+# Prueba, aún no sé si funcionará, ignorar por el momento ----------------------------------------------------------
+# Función de detección de colisiones:
+# Función de detección de colisiones, nivel 1:
+def deteccion_colisiones_1(canvas_nivel, nave, obstaculo_1, obstaculo_2, obstaculo_3):
+    # "Hitbox" de cada objeto (Bbox):
+    nave_bbox = canvas_nivel.bbox(nave)
+
+    obstaculo1_bbox = canvas_nivel.bbox(obstaculo_1)
+    obstaculo2_bbox = canvas_nivel.bbox(obstaculo_2)
+    obstaculo3_bbox = canvas_nivel.bbox(obstaculo_3)
+
+    # Detección de la colisión:
+    if nave_bbox[0] < obstaculo1_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[1] < nave_bbox[3]:
+        return True
+    elif nave_bbox[0] < obstaculo1_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[3] < nave_bbox[3]:
+        return True
+    elif nave_bbox[0] < obstaculo1_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[3] < nave_bbox[3]:
+        return True
+    elif nave_bbox[0] < obstaculo1_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[1] < nave_bbox[3]:
+        return True
+    else:
+        return False
+
+# Función de colisiones, nivel 2:
+def deteccion_colisiones_2(canvas_nivel, nave, obstaculo_1, obstaculo_2, obstaculo_3, obstaculo_4):
+    # "Hitbox" de cada objeto (Bbox):
+    nave_bbox = canvas_nivel.bbox(nave)
+
+    obstaculo1_bbox = canvas_nivel.bbox(obstaculo_1)
+    obstaculo2_bbox = canvas_nivel.bbox(obstaculo_2)
+    obstaculo3_bbox = canvas_nivel.bbox(obstaculo_3)
+    obstaculo4_bbox = canvas_nivel.bbox(obstaculo_4)
+
+    # Detección de la colisión:
+    if nave_bbox[0] < obstaculo1_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo4_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo4_bbox[1] < nave_bbox[3]:
+        return True
+    elif nave_bbox[0] < obstaculo1_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo4_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo4_bbox[3] < nave_bbox[3]:
+        return True
+    elif nave_bbox[0] < obstaculo1_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo4_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo4_bbox[3] < nave_bbox[3]:
+        return True
+    elif nave_bbox[0] < obstaculo1_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo4_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo4_bbox[1] < nave_bbox[3]:
+        return True
+    else:
+        return False
+
+# Función de colisiones, nivel 3:
+def deteccion_colisiones_3(canvas_nivel, nave, obstaculo_1, obstaculo_2, obstaculo_3, obstaculo_4, obstaculo_5):
+    # "Hitbox" de cada objeto (Bbox):
+    nave_bbox = canvas_nivel.bbox(nave)
+
+    obstaculo1_bbox = canvas_nivel.bbox(obstaculo_1)
+    obstaculo2_bbox = canvas_nivel.bbox(obstaculo_2)
+    obstaculo3_bbox = canvas_nivel.bbox(obstaculo_3)
+    obstaculo4_bbox = canvas_nivel.bbox(obstaculo_4)
+    obstaculo5_bbox = canvas_nivel.bbox(obstaculo_5)
+
+    # Detección de la colisión:
+    if nave_bbox[0] < obstaculo1_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo4_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo4_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo5_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo5_bbox[1] < nave_bbox[3]:
+        return True
+    elif nave_bbox[0] < obstaculo1_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo4_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo4_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo5_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo5_bbox[3] < nave_bbox[3]:
+        return True
+    elif nave_bbox[0] < obstaculo1_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo4_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo4_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo5_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo5_bbox[3] < nave_bbox[3]:
+        return True
+    elif nave_bbox[0] < obstaculo1_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo4_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo4_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo5_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo5_bbox[1] < nave_bbox[3]:
+        return True
+    else:
+        return False
+
+# Función de colisiones, general:
+def deteccion_colisiones_gen(nivel, canvas_nivel):
+
+    if nivel.nivel == 1:
+        return deteccion_colisiones_1(canvas_nivel, nivel.jugador, nivel.asteroide_1, nivel.asteroide_2, nivel.asteroide_3) # Se quitó parámetro nivel, evaluar si es útil.
+    elif nivel.nivel == 2:
+        return deteccion_colisiones_2(canvas_nivel, nivel.jugador, nivel.asteroide_1, nivel.asteroide_2, nivel.asteroide_3, nivel.asteroide_4)
+    else:
+        return deteccion_colisiones_3(canvas_nivel, nivel.jugador, nivel.asteroide_1, nivel.asteroide_2, nivel.asteroide_3, nivel.asteroide_4, nivel.asteroide_5)
+
+# Función que quitará la vida de ser que hubo una colisión:
+def asteroide_golpea_jugador(nivel, canvas_nivel):
+
+    if deteccion_colisiones_gen(nivel, canvas_nivel) == True:
+        nivel.jugador.vidas -= 1
+# Prueba, aún no sé si funcionará, ignorar por el momento -----------------------------------------------
+
+# Más pruebas: ----------------------------------------------------
+# Función de actualización:
+def actualizar_juego(nivel, canvas_nivel, pantalla_nivel):
+    movimiento_asteroides(nivel, canvas_nivel, pantalla_nivel) # Hace falta agregar funciones, como la de colisión
+
+# Función continua_juego (a esta haría falta agregarle la condición del tiempo, que sería la condición de victoria por supervivencia) y ciclo del juego:
+def continua_juego(nivel):
+    if nivel.jugador.vidas <= 0:
+        return -1
+    else:
+        return 0
+
+def ciclo_juego(nivel, canvas_nivel, pantalla_nivel): # Es probable que haga falta agregar una función, como de colisión.
+    renderizacion(nivel, canvas_nivel, pantalla_nivel)
+    actualizar_juego(nivel, canvas_nivel, pantalla_nivel)
+    
+    
+    continuar = continua_juego(nivel)
+    if continuar == 0:
+        pantalla_nivel.after(100, ciclo_juego, nivel, canvas_nivel, pantalla_nivel) # Haría falta agregar las condiciones de victoria y de "game over"
+
+# Prueba: ----------------------------------------------------
 
 # Creamos la raíz sobre la que se desarrollará el videojuego. 
 raiz_juego = Tk()
@@ -343,21 +497,21 @@ def funcion_jugar():
             # Nombre jugador:
             nombre_de_jugador = nombre_jugador.get()
             
-            # Prueba
+            # Prueba -------------------------------------------------------
             # Creación del jugador:
             jugador = Jugador(nombre_de_jugador, 3, sprite_naveJugador, 620, 585)
 
             # Creación asteroides:
-            asteroide1 = ""
-            asteroide2 = ""
-            asteroide3 = ""
+            asteroide1 = Asteroides(sprite_asteroides, 620, 40)
+            asteroide2 = Asteroides(sprite_asteroides, 650, 80)
+            asteroide3 = Asteroides(sprite_asteroides, 690, 100)
 
             # Creación del nivel:
             primer_nivel = Nivel1(jugador, asteroide1, asteroide2, asteroide3, datetime.datetime.now())
 
             # Llamada para renderizar
-            renderizacion(primer_nivel, canvas_nivel_1, pantalla_nivel_1)
-            # Prueba
+            ciclo_juego(primer_nivel, canvas_nivel_1, pantalla_nivel_1)
+            # Prueba ------------------------------------------------------------
 
             # Función del botón "Atrás" de la pantalla del nivel 1:
             def atras_nivel_1():
