@@ -156,6 +156,57 @@ def renderizacion(nivel, canvas_nivel, pantalla_nivel):
 
             # Agregar etiqueta de puntaje:
 
+        # La siguiente condición renderizará ("dibujará") los asteroides en la pantalla del nivel en caso de que este proceso aún no se haya llevado a cabo.
+        if nivel.nivel == 1:
+            if nivel.asteroide_1.canvas == "":
+                asteroide1_canvas = canvas_nivel.create_image(nivel.asteroide_1.posicion_x, nivel.asteroide_1.posicion_y, anchor=NW, image=nivel.asteroide_1.sprite)  # Se posicionarán los asteroides en la posición que se haya especificado al crear el objeto.
+                nivel.asteroide_1.canvas = asteroide1_canvas
+            if nivel.asteroide_2.canvas == "":
+                asteroide2_canvas = canvas_nivel.create_image(nivel.asteroide_2.posicion_x, nivel.asteroide_2.posicion_y, anchor=NW, image=nivel.asteroide_2.sprite)  # Se posicionarán los asteroides en la posición que se haya especificado al crear el objeto.
+                nivel.asteroide_2.canvas = asteroide2_canvas
+            if nivel.asteroide_3.canvas == "":
+                asteroide3_canvas = canvas_nivel.create_image(nivel.asteroide_3.posicion_x, nivel.asteroide_3.posicion_y, anchor=NW, image=nivel.asteroide_3.sprite)  # Se posicionarán los asteroides en la posición que se haya especificado al crear el objeto.
+                nivel.asteroide_3.canvas = asteroide3_canvas
+        if nivel.nivel == 2:
+            if nivel.asteroide_1.canvas == "":
+                asteroide1_canvas = canvas_nivel.create_image(nivel.asteroide_1.posicion_x, nivel.asteroide_1.posicion_y, anchor=NW, image=nivel.asteroide_1.sprite)  # Se posicionarán los asteroides en la posición que se haya especificado al crear el objeto.
+                nivel.asteroide_1.canvas = asteroide1_canvas
+            if nivel.asteroide_2.canvas == "":
+                asteroide2_canvas = canvas_nivel.create_image(nivel.asteroide_2.posicion_x, nivel.asteroide_2.posicion_y, anchor=NW, image=nivel.asteroide_2.sprite)  # Se posicionarán los asteroides en la posición que se haya especificado al crear el objeto.
+                nivel.asteroide_2.canvas = asteroide2_canvas
+            if nivel.asteroide_3.canvas == "":
+                asteroide3_canvas = canvas_nivel.create_image(nivel.asteroide_3.posicion_x, nivel.asteroide_3.posicion_y, anchor=NW, image=nivel.asteroide_3.sprite)  # Se posicionarán los asteroides en la posición que se haya especificado al crear el objeto.
+                nivel.asteroide_3.canvas = asteroide3_canvas
+            if nivel.asteroide_4.canvas == "":
+                asteroide4_canvas = canvas_nivel.create_image(nivel.asteroide_4.posicion_x, nivel.asteroide_4.posicion_y, anchor=NW, image=nivel.asteroide_4.sprite)  # Se posicionarán los asteroides en la posición que se haya especificado al crear el objeto.
+                nivel.asteroide_4.canvas = asteroide4_canvas
+        if nivel.nivel == 3:
+            if nivel.asteroide_1.canvas == "":
+                asteroide1_canvas = canvas_nivel.create_image(nivel.asteroide_1.posicion_x, nivel.asteroide_1.posicion_y, anchor=NW, image=nivel.asteroide_1.sprite)  # Se posicionarán los asteroides en la posición que se haya especificado al crear el objeto.
+                nivel.asteroide_1.canvas = asteroide1_canvas
+            if nivel.asteroide_2.canvas == "":
+                asteroide2_canvas = canvas_nivel.create_image(nivel.asteroide_2.posicion_x, nivel.asteroide_2.posicion_y, anchor=NW, image=nivel.asteroide_2.sprite)  # Se posicionarán los asteroides en la posición que se haya especificado al crear el objeto.
+                nivel.asteroide_2.canvas = asteroide2_canvas
+            if nivel.asteroide_3.canvas == "":
+                asteroide3_canvas = canvas_nivel.create_image(nivel.asteroide_3.posicion_x, nivel.asteroide_3.posicion_y, anchor=NW, image=nivel.asteroide_3.sprite)  # Se posicionarán los asteroides en la posición que se haya especificado al crear el objeto.
+                nivel.asteroide_3.canvas = asteroide3_canvas
+            if nivel.asteroide_4.canvas == "":
+                asteroide4_canvas = canvas_nivel.create_image(nivel.asteroide_4.posicion_x, nivel.asteroide_4.posicion_y, anchor=NW, image=nivel.asteroide_4.sprite)  # Se posicionarán los asteroides en la posición que se haya especificado al crear el objeto.
+                nivel.asteroide_4.canvas = asteroide4_canvas
+            if nivel.asteroide_5.canvas == "":
+                asteroide5_canvas = canvas_nivel.create_image(nivel.asteroide_5.posicion_x, nivel.asteroide_5.posicion_y, anchor=NW, image=nivel.asteroide_5.sprite)  # Se posicionarán los asteroides en la posición que se haya especificado al crear el objeto.
+                nivel.asteroide_5.canvas = asteroide5_canvas
+
+# Game cycle:
+def movimiento_asteroides(nivel, canvas_nivel, pantalla_nivel):
+    if nivel.nivel == 1:
+        nivel.asteroide_1.posicion_x += (10 * nivel.asteroide_1.direccion)
+        canvas_nivel.move(nivel.asteroide_1.canvas, 10 * nivel.asteroide_1.direccion, 0)
+        if (nivel.asteroide_1.posicion_x > 1000):
+            nivel.asteroide_1.direccion = -1
+        elif (nivel.asteroide_1.direccion < 100):
+            nivel.asteroide_1.direccion = 1
+
 # Creamos la raíz sobre la que se desarrollará el videojuego. 
 raiz_juego = Tk()
 
@@ -348,15 +399,16 @@ def funcion_jugar():
             jugador = Jugador(nombre_de_jugador, 3, sprite_naveJugador, 620, 585)
 
             # Creación asteroides:
-            asteroide1 = ""
-            asteroide2 = ""
-            asteroide3 = ""
+            asteroide1 = Asteroides(sprite_asteroides, random.randint(0, 1239), 1)
+            asteroide2 = Asteroides(sprite_asteroides, random.randint(0, 1239), 1)
+            asteroide3 = Asteroides(sprite_asteroides, random.randint(0, 1239), 1)
 
             # Creación del nivel:
             primer_nivel = Nivel1(jugador, asteroide1, asteroide2, asteroide3, datetime.datetime.now())
 
             # Llamada para renderizar
             renderizacion(primer_nivel, canvas_nivel_1, pantalla_nivel_1)
+            movimiento_asteroides(primer_nivel, canvas_nivel_1, pantalla_nivel_1)
             # Prueba
 
             # Función del botón "Atrás" de la pantalla del nivel 1:
