@@ -761,7 +761,7 @@ def funcion_jugar():
 
             # Musica nivel
             mixer.music.stop()
-            mixer.music.load("tema_nivel2.wav")
+            mixer.music.load("tema_nivel3.wav")
             mixer.music.play(-1)
 
             # Parámetros para la creación de la partida/juego (Nivel 1):
