@@ -1,7 +1,6 @@
 from tkinter import *
 import datetime
 import random
-
 import pygame
 from pygame import mixer
 
@@ -504,7 +503,7 @@ bg_nivel2 = PhotoImage(file ="bg_nivel2.png")
 bg_nivel3 = PhotoImage(file ="bg_nivel3.png")
 
 # Fondo puntajes
-bg_puntajes = PhotoImage(file ="bg_raiz.png")
+bg_puntajes = PhotoImage(file ="bg_puntajes.png")
 
 #Sprites
 sprite_naveJugador = PhotoImage(file ="sprite_nave.png")
