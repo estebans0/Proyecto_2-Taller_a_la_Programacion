@@ -18,7 +18,7 @@ class Jugador:
     # Movimiento horizontal:
     def movimiento_derecho(self, pixeles): # Los "pixeles" indican cuánto se moverá la nave sobre la pantalla
 
-        if (self.posicion_x + pixeles < 1300): # Marca un límite, si el jugador se pasa del mismo, no se moverá más
+        if (self.posicion_x + pixeles < 1238): # Marca un límite, si el jugador se pasa del mismo, no se moverá más
             self.posicion_x = self.posicion_x + pixeles
             return pixeles
         else:
@@ -35,7 +35,7 @@ class Jugador:
     # Movimiento vertical:
     def movimiento_arriba(self, pixeles):
 
-        if (self.posicion_y - pixeles > 400):
+        if (self.posicion_y - pixeles > 0):
             self.posicion_y = self.posicion_y - pixeles
             return pixeles
         else:
@@ -43,7 +43,7 @@ class Jugador:
     
     def movimiento_abajo(self, pixeles):
 
-        if (self.posicion_y + pixeles < 650):
+        if (self.posicion_y + pixeles < 640):
             self.posicion_y = self.posicion_y + pixeles
             return pixeles
         else:
