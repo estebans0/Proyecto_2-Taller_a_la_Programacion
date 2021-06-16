@@ -2,6 +2,9 @@ from tkinter import *
 import datetime
 import random
 
+import pygame
+from pygame import mixer
+
 # Clases importantes para el videojuego:
 # Clase "Jugador":
 class Jugador:
@@ -179,9 +182,13 @@ def movimiento_asteroides(nivel, canvas_nivel, pantalla_nivel):
         canvas_nivel.move(nivel.asteroide_1.canvas, 10 * nivel.asteroide_1.direccion_x, 0)
 
         if (nivel.asteroide_1.posicion_x >= 1238):
+            golpe_sonido = mixer.Sound("golpe_asteroide.wav")
+            golpe_sonido.play()
             nivel.asteroide_1.direccion_x = -1
             nivel.asteroide_1.direccion_y = random.randint(-1, 1)
         elif (nivel.asteroide_1.posicion_x <= 0):
+            golpe_sonido = mixer.Sound("golpe_asteroide.wav")
+            golpe_sonido.play()
             nivel.asteroide_1.direccion_x = 1
             nivel.asteroide_1.direccion_y = random.randint(-1, 1)
 
@@ -189,9 +196,13 @@ def movimiento_asteroides(nivel, canvas_nivel, pantalla_nivel):
         canvas_nivel.move(nivel.asteroide_1.canvas, 0, 10 * nivel.asteroide_1.direccion_y)
 
         if (nivel.asteroide_1.posicion_y >= 640):
+            golpe_sonido = mixer.Sound("golpe_asteroide.wav")
+            golpe_sonido.play()
             nivel.asteroide_1.direccion_y = -1
             nivel.asteroide_1.direccion_x = random.randint(-1, 1)
         elif (nivel.asteroide_1.posicion_y <= 0):
+            golpe_sonido = mixer.Sound("golpe_asteroide.wav")
+            golpe_sonido.play()
             nivel.asteroide_1.direccion_y = 1
             nivel.asteroide_1.direccion_x = random.randint(-1, 1)
 
@@ -200,9 +211,13 @@ def movimiento_asteroides(nivel, canvas_nivel, pantalla_nivel):
         canvas_nivel.move(nivel.asteroide_2.canvas, 10 * nivel.asteroide_2.direccion_x, 0)
 
         if (nivel.asteroide_2.posicion_x >= 1238):
+            golpe_sonido = mixer.Sound("golpe_asteroide.wav")
+            golpe_sonido.play()
             nivel.asteroide_2.direccion_x = -1
             nivel.asteroide_2.direccion_y = random.randint(-1, 1)
         elif (nivel.asteroide_2.posicion_x <= 0):
+            golpe_sonido = mixer.Sound("golpe_asteroide.wav")
+            golpe_sonido.play()
             nivel.asteroide_2.direccion_x = 1
             nivel.asteroide_2.direccion_y = random.randint(-1, 1)
 
@@ -210,9 +225,13 @@ def movimiento_asteroides(nivel, canvas_nivel, pantalla_nivel):
         canvas_nivel.move(nivel.asteroide_2.canvas, 0, 10 * nivel.asteroide_2.direccion_y)
 
         if (nivel.asteroide_2.posicion_y >= 640):
+            golpe_sonido = mixer.Sound("golpe_asteroide.wav")
+            golpe_sonido.play()
             nivel.asteroide_2.direccion_y = -1
             nivel.asteroide_2.direccion_x = random.randint(-1, 1)
         elif (nivel.asteroide_2.posicion_y <= 0):
+            golpe_sonido = mixer.Sound("golpe_asteroide.wav")
+            golpe_sonido.play()
             nivel.asteroide_2.direccion_y = 1
             nivel.asteroide_2.direccion_x = random.randint(-1, 1)
 
@@ -221,9 +240,13 @@ def movimiento_asteroides(nivel, canvas_nivel, pantalla_nivel):
         canvas_nivel.move(nivel.asteroide_3.canvas, 10 * nivel.asteroide_3.direccion_x, 0)
 
         if (nivel.asteroide_3.posicion_x >= 1238):
+            golpe_sonido = mixer.Sound("golpe_asteroide.wav")
+            golpe_sonido.play()
             nivel.asteroide_3.direccion_x = -1
             nivel.asteroide_3.direccion_y = random.randint(-1, 1)
         elif (nivel.asteroide_3.posicion_x <= 0):
+            golpe_sonido = mixer.Sound("golpe_asteroide.wav")
+            golpe_sonido.play()
             nivel.asteroide_3.direccion_x = 1
             nivel.asteroide_3.direccion_y = random.randint(-1, 1)
 
@@ -231,9 +254,13 @@ def movimiento_asteroides(nivel, canvas_nivel, pantalla_nivel):
         canvas_nivel.move(nivel.asteroide_3.canvas, 0, 10 * nivel.asteroide_3.direccion_y)
 
         if (nivel.asteroide_3.posicion_y >= 640):
+            golpe_sonido = mixer.Sound("golpe_asteroide.wav")
+            golpe_sonido.play()
             nivel.asteroide_3.direccion_y = -1
             nivel.asteroide_3.direccion_x = random.randint(-1, 1)
         elif (nivel.asteroide_3.posicion_y <= 0):
+            golpe_sonido = mixer.Sound("golpe_asteroide.wav")
+            golpe_sonido.play()
             nivel.asteroide_3.direccion_y = 1
             nivel.asteroide_3.direccion_x = random.randint(-1, 1)
 # Prueba -----------------------------------------------------------------------------
@@ -348,6 +375,11 @@ def ciclo_juego(nivel, canvas_nivel, pantalla_nivel): # Es probable que haga fal
 
 # Creamos la raíz sobre la que se desarrollará el videojuego. 
 raiz_juego = Tk()
+
+#Musica principal
+pygame.init()
+mixer.music.load("tema_principal.wav")
+mixer.music.play(-1)
 
 # Personalización de la raiz:
 raiz_juego.title("Nombre del juego") 
@@ -529,6 +561,11 @@ def funcion_jugar():
             # Escenario (fondo) del primer nivel:
             canvas_nivel_1.create_image(0, 0, anchor = NW, image = bg_nivel1)
 
+            # Musica nivel
+            mixer.music.stop()
+            mixer.music.load("tema_nivel1.mp3")
+            mixer.music.play(-1)
+
             # Parámetros para la creación de la partida/juego (Nivel 1):
             # Nombre jugador:
             nombre_de_jugador = nombre_jugador.get()
@@ -552,6 +589,11 @@ def funcion_jugar():
             # Función del botón "Atrás" de la pantalla del nivel 1:
             def atras_nivel_1():
                 pantalla_nivel_1.destroy()
+
+                #Parar musica del nivel y repoducir tema principal
+                mixer.music.stop()
+                mixer.music.load("tema_principal.wav")
+                mixer.music.play(-1)
             
             # Botón "Atrás" de la pantalla del nivel 1:
             atras_n1 = Button(canvas_nivel_1, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras_nivel_1)
