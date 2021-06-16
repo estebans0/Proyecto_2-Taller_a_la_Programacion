@@ -236,7 +236,7 @@ def movimiento_asteroides(nivel, canvas_nivel, pantalla_nivel):
         elif (nivel.asteroide_3.posicion_x <= 102):
             nivel.asteroide_3.posicion_x = 102
             nivel.asteroide_3.direccion_x = random.randint(-1, 1)
-            nivel.aasteroide_3.direccion_y = random.randint(-1, 1)
+            nivel.asteroide_3.direccion_y = random.randint(-1, 1)
 
         nivel.asteroide_3.posicion_y += (10 * nivel.asteroide_3.direccion_y)
         canvas_nivel.move(nivel.asteroide_3.canvas, 0, 10 * nivel.asteroide_3.direccion_y)
@@ -551,9 +551,9 @@ def funcion_jugar():
             jugador = Jugador(nombre_de_jugador, 3, sprite_naveJugador, 620, 585)
 
             # Creación asteroides:
-            asteroide1 = Asteroides(sprite_asteroides, random.randint(0, 1239), 1)
-            asteroide2 = Asteroides(sprite_asteroides, random.randint(0, 1239), 1)
-            asteroide3 = Asteroides(sprite_asteroides, random.randint(0, 1239), 1)
+            asteroide1 = Asteroides(sprite_asteroides, random.randint(80, 600), 1)
+            asteroide2 = Asteroides(sprite_asteroides, random.randint(81, 601), 1)
+            asteroide3 = Asteroides(sprite_asteroides, random.randint(82, 602), 1)
 
             # Creación del nivel:
             primer_nivel = Nivel1(jugador, asteroide1, asteroide2, asteroide3, datetime.datetime.now())
