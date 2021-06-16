@@ -156,6 +156,37 @@ def renderizacion(nivel, canvas_nivel, pantalla_nivel):
 
                 asteroide3 = canvas_nivel.create_image(nivel.asteroide_3.posicion_x, nivel.asteroide_3.posicion_y, anchor = NW, image = nivel.asteroide_3.sprite)
                 nivel.asteroide_3.canvas = asteroide3
+
+        if nivel.nivel == 2:
+            if nivel.asteroide_1.canvas == "" and nivel.asteroide_2.canvas == "" and nivel.asteroide_3.canvas == "" and nivel.asteroide_4.canvas == "":
+                asteroide1 = canvas_nivel.create_image(nivel.asteroide_1.posicion_x, nivel.asteroide_1.posicion_y, anchor = NW, image = nivel.asteroide_1.sprite)
+                nivel.asteroide_1.canvas = asteroide1
+
+                asteroide2 = canvas_nivel.create_image(nivel.asteroide_2.posicion_x, nivel.asteroide_2.posicion_y, anchor = NW, image = nivel.asteroide_2.sprite)
+                nivel.asteroide_2.canvas = asteroide2
+
+                asteroide3 = canvas_nivel.create_image(nivel.asteroide_3.posicion_x, nivel.asteroide_3.posicion_y, anchor = NW, image = nivel.asteroide_3.sprite)
+                nivel.asteroide_3.canvas = asteroide3
+
+                asteroide4 = canvas_nivel.create_image(nivel.asteroide_4.posicion_x, nivel.asteroide_4.posicion_y, anchor=NW, image=nivel.asteroide_4.sprite)
+                nivel.asteroide_4.canvas = asteroide4
+
+        if nivel.nivel == 3:
+            if nivel.asteroide_1.canvas == "" and nivel.asteroide_2.canvas == "" and nivel.asteroide_3.canvas == "" and nivel.asteroide_4.canvas == "" and nivel.asteroide_5.canvas == "":
+                asteroide1 = canvas_nivel.create_image(nivel.asteroide_1.posicion_x, nivel.asteroide_1.posicion_y, anchor = NW, image = nivel.asteroide_1.sprite)
+                nivel.asteroide_1.canvas = asteroide1
+
+                asteroide2 = canvas_nivel.create_image(nivel.asteroide_2.posicion_x, nivel.asteroide_2.posicion_y, anchor = NW, image = nivel.asteroide_2.sprite)
+                nivel.asteroide_2.canvas = asteroide2
+
+                asteroide3 = canvas_nivel.create_image(nivel.asteroide_3.posicion_x, nivel.asteroide_3.posicion_y, anchor = NW, image = nivel.asteroide_3.sprite)
+                nivel.asteroide_3.canvas = asteroide3
+
+                asteroide4 = canvas_nivel.create_image(nivel.asteroide_4.posicion_x, nivel.asteroide_4.posicion_y, anchor=NW, image=nivel.asteroide_4.sprite)
+                nivel.asteroide_4.canvas = asteroide4
+
+                asteroide5 = canvas_nivel.create_image(nivel.asteroide_5.posicion_x, nivel.asteroide_5.posicion_y, anchor=NW, image=nivel.asteroide_5.sprite)
+                nivel.asteroide_5.canvas = asteroide5
         
         # Renderización de las etiquetas que aparecerán en la pantalla de juego:
         if nivel.label_jugador == None and nivel.label_tiempo == None:
@@ -176,7 +207,7 @@ def renderizacion(nivel, canvas_nivel, pantalla_nivel):
 # Funciones del ciclo del juego: Prueba ----------------------------------------------------------------
 # Movimiento asteroides:
 def movimiento_asteroides(nivel, canvas_nivel, pantalla_nivel):
-    if nivel.nivel == 1:
+    if nivel.nivel == 1 or nivel.nivel == 2 or nivel.nivel == 3:
         # Asteroide 1:
         nivel.asteroide_1.posicion_x += (10 * nivel.asteroide_1.direccion_x)
         canvas_nivel.move(nivel.asteroide_1.canvas, 10 * nivel.asteroide_1.direccion_x, 0)
@@ -263,6 +294,67 @@ def movimiento_asteroides(nivel, canvas_nivel, pantalla_nivel):
             golpe_sonido.play()
             nivel.asteroide_3.direccion_y = 1
             nivel.asteroide_3.direccion_x = random.randint(-1, 1)
+
+    # Asteroide 4:
+    if nivel.nivel == 2 or nivel.nivel == 3:
+        nivel.asteroide_4.posicion_x += (10 * nivel.asteroide_4.direccion_x)
+        canvas_nivel.move(nivel.asteroide_4.canvas, 10 * nivel.asteroide_4.direccion_x, 0)
+
+        if (nivel.asteroide_4.posicion_x >= 1238):
+            golpe_sonido = mixer.Sound("golpe_asteroide.wav")
+            golpe_sonido.play()
+            nivel.asteroide_4.direccion_x = -1
+            nivel.asteroide_4.direccion_y = random.randint(-1, 1)
+        elif (nivel.asteroide_4.posicion_x <= 0):
+            golpe_sonido = mixer.Sound("golpe_asteroide.wav")
+            golpe_sonido.play()
+            nivel.asteroide_4.direccion_x = 1
+            nivel.asteroide_4.direccion_y = random.randint(-1, 1)
+
+        nivel.asteroide_4.posicion_y += (10 * nivel.asteroide_4.direccion_y)
+        canvas_nivel.move(nivel.asteroide_4.canvas, 0, 10 * nivel.asteroide_4.direccion_y)
+
+        if (nivel.asteroide_4.posicion_y >= 640):
+            golpe_sonido = mixer.Sound("golpe_asteroide.wav")
+            golpe_sonido.play()
+            nivel.asteroide_4.direccion_y = -1
+            nivel.asteroide_4.direccion_x = random.randint(-1, 1)
+        elif (nivel.asteroide_4.posicion_y <= 0):
+            golpe_sonido = mixer.Sound("golpe_asteroide.wav")
+            golpe_sonido.play()
+            nivel.asteroide_4.direccion_y = 1
+            nivel.asteroide_4.direccion_x = random.randint(-1, 1)
+
+
+    # Asteroide 5:
+    if nivel.nivel == 3:
+        nivel.asteroide_5.posicion_x += (10 * nivel.asteroide_5.direccion_x)
+        canvas_nivel.move(nivel.asteroide_5.canvas, 10 * nivel.asteroide_5.direccion_x, 0)
+
+        if (nivel.asteroide_5.posicion_x >= 1238):
+            golpe_sonido = mixer.Sound("golpe_asteroide.wav")
+            golpe_sonido.play()
+            nivel.asteroide_5.direccion_x = -1
+            nivel.asteroide_5.direccion_y = random.randint(-1, 1)
+        elif (nivel.asteroide_5.posicion_x <= 0):
+            golpe_sonido = mixer.Sound("golpe_asteroide.wav")
+            golpe_sonido.play()
+            nivel.asteroide_5.direccion_x = 1
+            nivel.asteroide_5.direccion_y = random.randint(-1, 1)
+
+        nivel.asteroide_5.posicion_y += (10 * nivel.asteroide_5.direccion_y)
+        canvas_nivel.move(nivel.asteroide_5.canvas, 0, 10 * nivel.asteroide_5.direccion_y)
+
+        if (nivel.asteroide_5.posicion_y >= 640):
+            golpe_sonido = mixer.Sound("golpe_asteroide.wav")
+            golpe_sonido.play()
+            nivel.asteroide_5.direccion_y = -1
+            nivel.asteroide_5.direccion_x = random.randint(-1, 1)
+        elif (nivel.asteroide_5.posicion_y <= 0):
+            golpe_sonido = mixer.Sound("golpe_asteroide.wav")
+            golpe_sonido.play()
+            nivel.asteroide_5.direccion_y = 1
+            nivel.asteroide_5.direccion_x = random.randint(-1, 1)
 # Prueba -----------------------------------------------------------------------------
 
 # Prueba, aún no sé si funcionará, ignorar por el momento ----------------------------------------------------------
@@ -614,14 +706,39 @@ def funcion_jugar():
             # Escenario (fondo) del segundo nivel:
             canvas_nivel_2.create_image(0, 0, anchor = NW, image = bg_nivel2)
 
-            # Parámetros para la creación de la partida/juego (Nivel 2):
+            # Musica nivel
+            mixer.music.stop()
+            mixer.music.load("tema_nivel2.wav")
+            mixer.music.play(-1)
+
+            # Parámetros para la creación de la partida/juego (Nivel 1):
             # Nombre jugador:
-            # nombre_de_jugador = nombre_jugador.get()
-            # print(nombre_de_jugador)
+            nombre_de_jugador = nombre_jugador.get()
+
+            # Prueba -------------------------------------------------------
+            # Creación del jugador:
+            jugador = Jugador(nombre_de_jugador, 3, sprite_naveJugador, 620, 585)
+
+            # Creación asteroides:
+            asteroide1 = Asteroides(sprite_asteroides, random.randint(0, 1238), -30)
+            asteroide2 = Asteroides(sprite_asteroides, random.randint(0, 1238), -30)
+            asteroide3 = Asteroides(sprite_asteroides, random.randint(0, 1238), -30)
+            asteroide4 = Asteroides(sprite_asteroides, random.randint(0, 1238), -30)
+
+            # Creación del nivel:
+            segundo_nivel = Nivel2(jugador, asteroide1, asteroide2, asteroide3, asteroide4, datetime.datetime.now())
+
+            # Llamada para renderizar
+            ciclo_juego(segundo_nivel, canvas_nivel_2, pantalla_nivel_2)
 
             # Función del botón "Atrás" de la pantalla del nivel 2:
             def atras_nivel_2():
                 pantalla_nivel_2.destroy()
+
+                # Parar musica del nivel y repoducir tema principal
+                mixer.music.stop()
+                mixer.music.load("tema_principal.wav")
+                mixer.music.play(-1)
 
             # Botón "Atrás" de la pantalla del nivel 2:
             atras_n2 = Button(canvas_nivel_2, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras_nivel_2)
@@ -641,15 +758,41 @@ def funcion_jugar():
 
             # Escenario (fondo) del tercer nivel:
             canvas_nivel_3.create_image(0, 0, anchor = NW, image = bg_nivel3)
-    
+
+            # Musica nivel
+            mixer.music.stop()
+            mixer.music.load("tema_nivel2.wav")
+            mixer.music.play(-1)
+
             # Parámetros para la creación de la partida/juego (Nivel 1):
             # Nombre jugador:
-            # nombre_de_jugador = nombre_jugador.get()
-            # print(nombre_de_jugador)
+            nombre_de_jugador = nombre_jugador.get()
+
+            # Prueba -------------------------------------------------------
+            # Creación del jugador:
+            jugador = Jugador(nombre_de_jugador, 3, sprite_naveJugador, 620, 585)
+
+            # Creación asteroides:
+            asteroide1 = Asteroides(sprite_asteroides, random.randint(0, 1238), -30)
+            asteroide2 = Asteroides(sprite_asteroides, random.randint(0, 1238), -30)
+            asteroide3 = Asteroides(sprite_asteroides, random.randint(0, 1238), -30)
+            asteroide4 = Asteroides(sprite_asteroides, random.randint(0, 1238), -30)
+            asteroide5 = Asteroides(sprite_asteroides, random.randint(0, 1238), -30)
+
+            # Creación del nivel:
+            tercer_nivel = Nivel3(jugador, asteroide1, asteroide2, asteroide3, asteroide4, asteroide5, datetime.datetime.now())
+
+            # Llamada para renderizar
+            ciclo_juego(tercer_nivel, canvas_nivel_3, pantalla_nivel_3)
 
             # Función del botón "Atrás" de la pantalla del nivel 3:
             def atras_nivel_3():
                 pantalla_nivel_3.destroy()
+
+                # Parar musica del nivel y repoducir tema principal
+                mixer.music.stop()
+                mixer.music.load("tema_principal.wav")
+                mixer.music.play(-1)
             
             # Botón "Atrás" de la pantalla del nivel 1:
             atras_n3 = Button(canvas_nivel_3, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras_nivel_3)
