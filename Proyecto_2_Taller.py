@@ -118,21 +118,25 @@ def renderizacion(nivel, canvas_nivel, pantalla_nivel):
 
         # Funciones que renderizarán el movimiento del jugador (cada vez que el jugador se mueva, lo dibujará en la posición exacta, dando ese efecto de movimiento)
         def movimiento_hacia_derecha(event):
+
             y = 0
             x = nivel.jugador.movimiento_derecho(10) # Note que la coordenada sobre la que ocurrirá el movimiento se llaman los métodos de movimiento definidos en la clase de jugador. Estos métodos cada vez que la nave se mueva irán evaluando que esta no llegue al límite establecido.
             canvas_nivel.move(nave_jugador_canvas, x, y)
         
         def movimiento_hacia_izquierda(event):
+
             y = 0
             x = nivel.jugador.movimiento_izquierdo(10) * -1 # Note que para el movimiento izquierdo, se cambia la dirección de la nave multiplicando un -1
             canvas_nivel.move(nave_jugador_canvas, x, y)
         
         def movimiento_hacia_arriba(event):
+
             x = 0
             y = nivel.jugador.movimiento_arriba(10) * -1 # Similar a la función anterior, se utiliza un -1 para que los pixeles no se sumen, sino que se resten para así permitir que la nave suba
             canvas_nivel.move(nave_jugador_canvas, x, y)
         
         def movimiento_hacia_abajo(event):
+
             x = 0
             y = nivel.jugador.movimiento_abajo(10)
             canvas_nivel.move(nave_jugador_canvas, x, y)
@@ -146,6 +150,7 @@ def renderizacion(nivel, canvas_nivel, pantalla_nivel):
         # Cargar y renderizar canvas de los asteroides:
         # Nivel 1:
         if nivel.nivel == 1:
+
             if nivel.asteroide_1.canvas == "" and nivel.asteroide_2.canvas == "" and nivel.asteroide_3.canvas == "":
                 asteroide1 = canvas_nivel.create_image(nivel.asteroide_1.posicion_x, nivel.asteroide_1.posicion_y, anchor = NW, image = nivel.asteroide_1.sprite)
                 nivel.asteroide_1.canvas = asteroide1
@@ -157,6 +162,7 @@ def renderizacion(nivel, canvas_nivel, pantalla_nivel):
                 nivel.asteroide_3.canvas = asteroide3
 
         if nivel.nivel == 2:
+
             if nivel.asteroide_1.canvas == "" and nivel.asteroide_2.canvas == "" and nivel.asteroide_3.canvas == "" and nivel.asteroide_4.canvas == "":
                 asteroide1 = canvas_nivel.create_image(nivel.asteroide_1.posicion_x, nivel.asteroide_1.posicion_y, anchor = NW, image = nivel.asteroide_1.sprite)
                 nivel.asteroide_1.canvas = asteroide1
@@ -171,6 +177,7 @@ def renderizacion(nivel, canvas_nivel, pantalla_nivel):
                 nivel.asteroide_4.canvas = asteroide4
 
         if nivel.nivel == 3:
+
             if nivel.asteroide_1.canvas == "" and nivel.asteroide_2.canvas == "" and nivel.asteroide_3.canvas == "" and nivel.asteroide_4.canvas == "" and nivel.asteroide_5.canvas == "":
                 asteroide1 = canvas_nivel.create_image(nivel.asteroide_1.posicion_x, nivel.asteroide_1.posicion_y, anchor = NW, image = nivel.asteroide_1.sprite)
                 nivel.asteroide_1.canvas = asteroide1
@@ -189,6 +196,7 @@ def renderizacion(nivel, canvas_nivel, pantalla_nivel):
         
         # Renderización de las etiquetas que aparecerán en la pantalla de juego:
         if nivel.label_jugador == None and nivel.label_tiempo == None:
+
             # Etiqueta en la que se visualizará la vida y nombre del jugador:
             etiqueta_jugador = Label(canvas_nivel, text = "{}: {}".format(nivel.jugador.nombre_jugador, nivel.jugador.vidas), bg = "Black", fg = "White", font = ("Impact", 15))
             etiqueta_jugador.place(x = 20, y = 200)
@@ -206,6 +214,7 @@ def renderizacion(nivel, canvas_nivel, pantalla_nivel):
 # Funciones del ciclo del juego: Prueba ----------------------------------------------------------------
 # Movimiento asteroides:
 def movimiento_asteroides(nivel, canvas_nivel, pantalla_nivel):
+
     if nivel.nivel == 1 or nivel.nivel == 2 or nivel.nivel == 3:
         # Asteroide 1:
         nivel.asteroide_1.posicion_x += (10 * nivel.asteroide_1.direccion_x)
@@ -445,6 +454,7 @@ def asteroide_golpea_jugador(nivel, canvas_nivel):
 # Función de actualización:
 def actualizar_juego(nivel, canvas_nivel, pantalla_nivel):
     movimiento_asteroides(nivel, canvas_nivel, pantalla_nivel) # Hace falta agregar funciones, como la de colisión
+    
 
 # Función continua_juego (a esta haría falta agregarle la condición del tiempo, que sería la condición de victoria por supervivencia) y ciclo del juego:
 def continua_juego(nivel):
@@ -457,7 +467,7 @@ def ciclo_juego(nivel, canvas_nivel, pantalla_nivel): # Es probable que haga fal
     renderizacion(nivel, canvas_nivel, pantalla_nivel)
     actualizar_juego(nivel, canvas_nivel, pantalla_nivel)
     
-    
+
     continuar = continua_juego(nivel)
     if continuar == 0:
         pantalla_nivel.after(100, ciclo_juego, nivel, canvas_nivel, pantalla_nivel) # Haría falta agregar las condiciones de victoria y de "game over"
@@ -487,7 +497,7 @@ canvas_raiz.pack()
 
 # Labels de la raíz:
 # Licencia:
-Label(canvas_raiz, text = "©2021 TEC CR., LTD. All Rights Reserved.", bg = "Black", font = ("Impact", 15), fg = "White").place(x = 550, y = 650)
+Label(canvas_raiz, text = "©2021 TEC CR., LTD. All Rights Reserved.", bg = "#0e212e", font = ("Impact", 15), fg = "#807e7e").place(x = 550, y = 650)
 
 # Fondo de la raiz
 bg_principal = PhotoImage(file ="bg_raiz.png")
@@ -540,14 +550,63 @@ def funcion_jugar():
 
         # Pantalla complementaria ("About"):
         pantalla_comp = Toplevel()
+
         pantalla_comp.geometry("1366x768")
+
         pantalla_comp.iconbitmap("Icono_proyecto2.ico")
+
         pantalla_comp.config(cursor = "star")
 
         # Canvas, pantalla complementaria:
         canvas_comp = Canvas(pantalla_comp, width = 1366, height = 768, bg = "Black")
+
         canvas_comp.pack()
 
+        # Frame sobre el que los textos irán:
+        frame_complemento = Frame(canvas_comp, width = 780, height = 500)
+
+        frame_complemento.place(x = 312, y = 140)
+
+        frame_complemento.config(bg = "#0e212e")
+
+        frame_complemento.config(bd = 10)
+
+        frame_complemento.config(relief = "groove")
+
+        # Textos pertenecientes a la pantalla about (etiquetas de texto):
+        Label(frame_complemento, text = "Hecho en:", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 10, y = 1)
+
+        Label(frame_complemento, text = "Costa Rica", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 10, y = 21)
+
+        Label(frame_complemento, text = "Universidad:", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 10, y = 60)
+
+        Label(frame_complemento, text = "Instituto Tecnológico de Costa Rica", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 10, y = 80)
+
+        Label(frame_complemento, text = "Carerra:", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 10, y = 120)
+
+        Label(frame_complemento, text = "Ingeniería en Computadores", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 10, y = 140)
+
+        Label(frame_complemento, text = "Curso:", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 10, y = 180)
+
+        Label(frame_complemento, text = "Taller a la programación (CE1102), 2021, group #3", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 10, y = 200)
+
+        Label(frame_complemento, text = "Profesor:", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 10, y = 240)
+
+        Label(frame_complemento, text = "Leonardo Araya Martínez", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 10, y = 260)
+
+        Label(frame_complemento, text = "Versión:", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 10, y = 300)
+
+        Label(frame_complemento, text = "1.0", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 65, y = 300)
+
+        Label(frame_complemento, text = "Autores:", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 10, y = 340)
+
+        Label(frame_complemento, text = "Esteban Solano Araya y Luis Felipe Brenes Ramírez", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 10, y = 360)
+
+        Label(frame_complemento, text = "Bibliotecas usadas:", bg = "#0e212e", font = ("Impact", 12)).place(x = 10, y = 400)
+
+        Label(frame_complemento, text = "Tkinter (Fredrik Lundh), Pygame (Lenard Lindstrom, René Dudfield, Pete Shinners, Nicholas Dudfield, Thomas Kluyver", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 10, y = 420)
+
+        Label(frame_complemento, text = "y otros), Datetime y Random", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 10, y = 445)
         # Fondo complementaria
         canvas_comp.create_image(0, 0, anchor=NW, image=bg_principal)
 
@@ -561,13 +620,49 @@ def funcion_jugar():
 
             # Pantalla "Ayuda":
             pantalla_de_ayuda = Toplevel()
+
             pantalla_de_ayuda.geometry("1366x768")
+
             pantalla_de_ayuda.iconbitmap("Icono_proyecto2.ico")
+
             pantalla_de_ayuda.config(cursor = "star")
 
             # Canvas pantalla "Ayuda":
             canvas_ayuda = Canvas(pantalla_de_ayuda, width = 1366, height = 768, bg = "Black")
+
             canvas_ayuda.pack()
+
+            # Frame sobre el que irán las instrucciones (labels de texto):
+            frame_instrucciones = Frame(canvas_ayuda, width = 780, height = 500)
+
+            frame_instrucciones.place(x = 312, y = 140)
+
+            frame_instrucciones.config(bg = "#0e212e")
+
+            frame_instrucciones.config(bd = 10)
+
+            frame_instrucciones.config(relief = "groove")
+
+            # Instrucciones que irán sobre el frame (etiquetas de texto):
+            Label(frame_instrucciones, text = "Instrucciones:", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 345, y = 1)
+
+            Label(frame_instrucciones, text = "1.", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 10, y = 51)
+
+            Label(frame_instrucciones, text = "Usa las flechas de tu teclado para esquivar los asteroides.", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 35, y = 51)
+
+            Label(frame_instrucciones, text = "2.", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 10, y = 111)
+
+            Label(frame_instrucciones, text = "Sobrevive por un minuto para pasar al siguiente nivel.", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 35, y = 111)
+
+            Label(frame_instrucciones, text = "3.", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 10, y = 161)
+
+            Label(frame_instrucciones, text = "No dejes que los asteroides te toquen, te quitarán vidas (cuentas con tres vidas).", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 35, y = 161)
+
+            Label(frame_instrucciones, text = "4.", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 10, y = 221)
+
+            Label(frame_instrucciones, text = "¡Diviértete!", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 35, y = 221)
+
+            Label(frame_instrucciones, text = "¡Gracias por jugar :D!", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 325, y = 281)
 
             # Fondo ayuda
             canvas_ayuda.create_image(0, 0, anchor=NW, image=bg_principal)
@@ -578,15 +673,18 @@ def funcion_jugar():
             
             # Botón "Atrás" de la pantalla de ayuda:
             Boton_atras_ayuda = Button(canvas_ayuda, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras_ayuda)
+
             Boton_atras_ayuda.place(x = 10, y = 655)
 
         # Botones de la pantalla complementaria:
         # Botón de la pantalla de ayuda:
         Boton_ayuda = Button(canvas_comp, text = "Ayuda", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = pantalla_ayuda)
+
         Boton_ayuda.place(x = 1288, y = 655)
 
         # Botón "Atrás" de la pantalla complementaria:
         Boton_atras_comp = Button(canvas_comp, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras_comp)
+
         Boton_atras_comp.place(x = 10, y = 655)
         
     # Función del botón "Puntajes"
@@ -595,12 +693,16 @@ def funcion_jugar():
 
         # Pantalla de mejores puntajes:
         pantalla_puntajes = Toplevel()
+
         pantalla_puntajes.geometry("1366x768")
+
         pantalla_puntajes.iconbitmap("Icono_proyecto2.ico")
+
         pantalla_puntajes.config(cursor = "star")
 
         # Canvas, pantalla de mejores puntajes:
         canvas_puntajes = Canvas(pantalla_puntajes, width = 1366, height = 768, bg = "Black")
+
         canvas_puntajes.pack()
 
         # Fondo puntajes
@@ -612,6 +714,7 @@ def funcion_jugar():
         
         # Botón "Atrás" de la pantalla de puntajes:
         Boton_atras_puntajes = Button(canvas_puntajes, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras_puntajes)
+
         Boton_atras_puntajes.place(x = 10, y = 655)
     
     # Función del botón "Niveles" (selección de niveles):
@@ -620,13 +723,31 @@ def funcion_jugar():
 
         # Pantalla de selección de niveles:
         pantalla_niveles = Toplevel()
+
         pantalla_niveles.geometry("1366x768")
+
         pantalla_niveles.iconbitmap("Icono_proyecto2.ico")
+
         pantalla_niveles.config(cursor = "star")
 
         # Canvas, pantalla de mejores puntajes:
         canvas_niveles = Canvas(pantalla_niveles, width = 1366, height = 768, bg = "Black")
+
         canvas_niveles.pack()
+
+        # Frame sobre el que irá el texto: "Elige un nivel":
+        frame_niveles = Frame(canvas_niveles, width = 500, height = 150)
+
+        frame_niveles.place(x = 450, y = 300)
+
+        frame_niveles.config(bg = "#0e212e")
+
+        frame_niveles.config(bd = 10)
+
+        frame_niveles.config(relief = "groove")
+
+        # Etiqueta con el texto "Elige un nivel":
+        Label(frame_niveles, text = "Elige un nivel:", bg = "#0e212e", font = ("Impact", 35), fg = "#807e7e").place(x = 110, y = 25)
 
         # Fondo niveles
         canvas_niveles.create_image(0, 0, anchor=NW, image=bg_principal)
@@ -641,12 +762,16 @@ def funcion_jugar():
         def Nivel_1():
             # Personalización de la pantalla del primer nivel:
             pantalla_nivel_1 = Toplevel()
+
             pantalla_nivel_1.geometry("1366x768")
+
             pantalla_nivel_1.iconbitmap("Icono_proyecto2.ico")
+
             pantalla_nivel_1.config(cursor = "star")
 
             # Canvas del nivel 1 (sobre este se dibujarán los elementos que aparecerán en pantalla):
             canvas_nivel_1 = Canvas(pantalla_nivel_1, width = 1366, height = 768, bg = "Black")
+
             canvas_nivel_1.pack()
 
             # Escenario (fondo) del primer nivel:
@@ -654,7 +779,9 @@ def funcion_jugar():
 
             # Musica nivel
             mixer.music.stop()
+
             mixer.music.load("tema_nivel1.mp3")
+
             mixer.music.play(-1)
 
             # Parámetros para la creación de la partida/juego (Nivel 1):
@@ -667,7 +794,9 @@ def funcion_jugar():
 
             # Creación asteroides:
             asteroide1 = Asteroides(sprite_asteroides, random.randint(0, 1238), -30)
+
             asteroide2 = Asteroides(sprite_asteroides, random.randint(0, 1238), -30)
+
             asteroide3 = Asteroides(sprite_asteroides, random.randint(0, 1238), -30)
 
             # Creación del nivel:
@@ -683,23 +812,30 @@ def funcion_jugar():
 
                 #Parar musica del nivel y repoducir tema principal
                 mixer.music.stop()
+
                 mixer.music.load("tema_principal.wav")
+
                 mixer.music.play(-1)
             
             # Botón "Atrás" de la pantalla del nivel 1:
             atras_n1 = Button(canvas_nivel_1, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras_nivel_1)
+
             atras_n1.place(x = 10, y = 655)
 
         # Pantalla del segundo nivel:
         def Nivel_2():
             # Personalización de la pantalla del segundo nivel:
             pantalla_nivel_2 = Toplevel()
+
             pantalla_nivel_2.geometry("1366x768")
+
             pantalla_nivel_2.iconbitmap("Icono_proyecto2.ico")
+
             pantalla_nivel_2.config(cursor = "star")
 
             # Canvas del nivel 2 (sobre este se dibujarán los elementos que aparecerán en pantalla):
             canvas_nivel_2 = Canvas(pantalla_nivel_2, width = 1366, height = 768, bg = "Black")
+
             canvas_nivel_2.pack()
 
             # Escenario (fondo) del segundo nivel:
@@ -707,7 +843,9 @@ def funcion_jugar():
 
             # Musica nivel
             mixer.music.stop()
+
             mixer.music.load("tema_nivel2.wav")
+
             mixer.music.play(-1)
 
             # Parámetros para la creación de la partida/juego (Nivel 1):
@@ -720,8 +858,11 @@ def funcion_jugar():
 
             # Creación asteroides:
             asteroide1 = Asteroides(sprite_asteroides, random.randint(0, 1238), -30)
+
             asteroide2 = Asteroides(sprite_asteroides, random.randint(0, 1238), -30)
+
             asteroide3 = Asteroides(sprite_asteroides, random.randint(0, 1238), -30)
+
             asteroide4 = Asteroides(sprite_asteroides, random.randint(0, 1238), -30)
 
             # Creación del nivel:
@@ -734,25 +875,32 @@ def funcion_jugar():
             def atras_nivel_2():
                 pantalla_nivel_2.destroy()
 
-                # Parar musica del nivel y repoducir tema principal
+                # Parar musica del nivel y reproducir tema principal
                 mixer.music.stop()
+
                 mixer.music.load("tema_principal.wav")
+
                 mixer.music.play(-1)
 
             # Botón "Atrás" de la pantalla del nivel 2:
             atras_n2 = Button(canvas_nivel_2, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras_nivel_2)
+
             atras_n2.place(x = 10, y = 655)
 
         # Pantalla del tercer nivel:
         def Nivel_3():
             # Personalización de la pantalla del tercer nivel:
             pantalla_nivel_3 = Toplevel()
+
             pantalla_nivel_3.geometry("1366x768")
+
             pantalla_nivel_3.iconbitmap("Icono_proyecto2.ico")
+
             pantalla_nivel_3.config(cursor = "star")
 
             # Canvas del nivel 3 (sobre este se dibujarán los elementos que aparecerán en pantalla):
             canvas_nivel_3 = Canvas(pantalla_nivel_3, width = 1366, height = 768, bg = "Black")
+
             canvas_nivel_3.pack()
 
             # Escenario (fondo) del tercer nivel:
@@ -760,7 +908,9 @@ def funcion_jugar():
 
             # Musica nivel
             mixer.music.stop()
+
             mixer.music.load("tema_nivel3.wav")
+
             mixer.music.play(-1)
 
             # Parámetros para la creación de la partida/juego (Nivel 1):
@@ -773,9 +923,13 @@ def funcion_jugar():
 
             # Creación asteroides:
             asteroide1 = Asteroides(sprite_asteroides, random.randint(0, 1238), -30)
+
             asteroide2 = Asteroides(sprite_asteroides, random.randint(0, 1238), -30)
+
             asteroide3 = Asteroides(sprite_asteroides, random.randint(0, 1238), -30)
+
             asteroide4 = Asteroides(sprite_asteroides, random.randint(0, 1238), -30)
+
             asteroide5 = Asteroides(sprite_asteroides, random.randint(0, 1238), -30)
 
             # Creación del nivel:
@@ -790,61 +944,75 @@ def funcion_jugar():
 
                 # Parar musica del nivel y repoducir tema principal
                 mixer.music.stop()
+
                 mixer.music.load("tema_principal.wav")
+
                 mixer.music.play(-1)
             
             # Botón "Atrás" de la pantalla del nivel 1:
             atras_n3 = Button(canvas_nivel_3, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras_nivel_3)
+
             atras_n3.place(x = 10, y = 655)
 
         # Botones de la pantalla de selección de niveles:
         # Botón que dirige a la pantalla del primer nivel:
         Boton_nivel_1 = Button(canvas_niveles, text = "Nivel 1", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = Nivel_1)
+
         Boton_nivel_1.place(x = 550, y = 500)
 
         # Botón que dirige a la pantalla del segundo nivel:
         Boton_nivel_2 = Button(canvas_niveles, text = "Nivel 2", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = Nivel_2)
+
         Boton_nivel_2.place(x = 650, y = 500)
 
         # Botón que dirige a la pantalla del tercer nivel:
         Boton_nivel_3 = Button(canvas_niveles, text = "Nivel 3", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = Nivel_3)
+
         Boton_nivel_3.place(x = 750, y = 500)
 
         # Botón "Jugar" de la pantalla de selección (inicia el juego en el nivel 1):
         Boton_jugar_seleccion = Button(canvas_niveles, text = "Jugar", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = Nivel_1)
+
         Boton_jugar_seleccion.place(x = 1288, y = 655)
 
         # Botón "Atrás" de la pantalla de selección:
         Boton_atras_seleccion = Button(canvas_niveles, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras_niveles)
+
         Boton_atras_seleccion.place(x = 10, y = 655)
 
         # Entry para que el jugador introduzca su nombre:
         # Label (etiqueta) con el texto "Introduzca su nombre":
-        Label(canvas_niveles, text = "Introduzca su nombre:", bg = "Black", fg = "White").place(x = 560, y = 600)
+        Label(canvas_niveles, text = "Introduzca su nombre:", bg = "#0e212e", fg = "#807e7e").place(x = 560, y = 600)
     
         # Entry sobre el que se digita el nombre:
         nombre_jugador = Entry(canvas_niveles, text = "Introduzca su nombre:", bg = "White")
+
         nombre_jugador.place(x = 690, y = 600) 
 
     # Botones de la pantalla de selección:
     # Botón de la pantalla complementaria:
     Boton_complemento = Button(canvas_seleccion, text = "About", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = complementaria)
+
     Boton_complemento.place(x = 550, y = 350)
 
     # Botón de la pantalla de mejores puntajes:
     Boton_puntajes = Button(canvas_seleccion, text = "Puntajes", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = mejores_puntajes)
+
     Boton_puntajes.place(x = 655, y = 350) 
 
     # Botón de la pantalla de selección de niveles:
     Boton_niveles = Button(canvas_seleccion, text = "Niveles", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = seleccion_niveles)
+
     Boton_niveles.place(x = 780, y = 350)
 
     # Botón para regresar a la pantalla de inicio:
     Boton_atras_seleccion = Button(canvas_seleccion, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras_seleccion)
+
     Boton_atras_seleccion.place(x = 10, y = 655)  
     
 # Botón "Jugar" de la pantalla incial:
 Boton_jugar = Button(canvas_raiz, text = "Jugar", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = funcion_jugar)
+
 Boton_jugar.place(x = 550, y = 500)
 
 # Función del botón "Salir" de la pantalla inicial:
@@ -852,8 +1020,9 @@ def cerrar_juego():
     raiz_juego.destroy()
 
 # Botón perteneciente a la función "cerrar_juego":
-
 Boton_cerrar = Button(canvas_raiz, text = "Salir", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = cerrar_juego)
+
 Boton_cerrar.place(x = 800, y = 500)
 
+# Loop que mantendrá la aplicación abierta en todo momento.
 raiz_juego.mainloop()
