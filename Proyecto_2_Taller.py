@@ -574,35 +574,35 @@ def funcion_jugar():
         frame_complemento.config(relief = "groove")
 
         # Textos pertenecientes a la pantalla about (etiquetas de texto):
-        Label(frame_complemento, text = "Hecho en:", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 10, y = 1)
+        Label(frame_complemento, text = "Hecho en:", bg = "#0e212e", font = ("Impact", 12), fg = "Light grey").place(x = 10, y = 1)
 
         Label(frame_complemento, text = "Costa Rica", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 10, y = 21)
 
-        Label(frame_complemento, text = "Universidad:", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 10, y = 60)
+        Label(frame_complemento, text = "Universidad:", bg = "#0e212e", font = ("Impact", 12), fg = "Light grey").place(x = 10, y = 60)
 
         Label(frame_complemento, text = "Instituto Tecnológico de Costa Rica", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 10, y = 80)
 
-        Label(frame_complemento, text = "Carerra:", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 10, y = 120)
+        Label(frame_complemento, text = "Carerra:", bg = "#0e212e", font = ("Impact", 12), fg = "Light grey").place(x = 10, y = 120)
 
         Label(frame_complemento, text = "Ingeniería en Computadores", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 10, y = 140)
 
-        Label(frame_complemento, text = "Curso:", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 10, y = 180)
+        Label(frame_complemento, text = "Curso:", bg = "#0e212e", font = ("Impact", 12), fg = "Light grey").place(x = 10, y = 180)
 
-        Label(frame_complemento, text = "Taller a la programación (CE1102), 2021, group #3", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 10, y = 200)
+        Label(frame_complemento, text = "Taller a la programación (CE1102), 2021, groupo #4", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 10, y = 200)
 
-        Label(frame_complemento, text = "Profesor:", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 10, y = 240)
+        Label(frame_complemento, text = "Profesor:", bg = "#0e212e", font = ("Impact", 12), fg = "Light grey").place(x = 10, y = 240)
 
         Label(frame_complemento, text = "Leonardo Araya Martínez", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 10, y = 260)
 
-        Label(frame_complemento, text = "Versión:", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 10, y = 300)
+        Label(frame_complemento, text = "Versión:", bg = "#0e212e", font = ("Impact", 12), fg = "Light grey").place(x = 10, y = 300)
 
         Label(frame_complemento, text = "1.0", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 65, y = 300)
 
-        Label(frame_complemento, text = "Autores:", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 10, y = 340)
+        Label(frame_complemento, text = "Autores:", bg = "#0e212e", font = ("Impact", 12), fg = "Light grey").place(x = 10, y = 340)
 
-        Label(frame_complemento, text = "Esteban Solano Araya y Luis Felipe Brenes Ramírez", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 10, y = 360)
+        Label(frame_complemento, text = "Esteban Josué Solano Araya y Luis Felipe Brenes Ramírez", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 10, y = 360)
 
-        Label(frame_complemento, text = "Bibliotecas usadas:", bg = "#0e212e", font = ("Impact", 12)).place(x = 10, y = 400)
+        Label(frame_complemento, text = "Bibliotecas usadas:", bg = "#0e212e", font = ("Impact", 12), fg = "Light grey").place(x = 10, y = 400)
 
         Label(frame_complemento, text = "Tkinter (Fredrik Lundh), Pygame (Lenard Lindstrom, René Dudfield, Pete Shinners, Nicholas Dudfield, Thomas Kluyver", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 10, y = 420)
 
@@ -644,25 +644,25 @@ def funcion_jugar():
             frame_instrucciones.config(relief = "groove")
 
             # Instrucciones que irán sobre el frame (etiquetas de texto):
-            Label(frame_instrucciones, text = "Instrucciones:", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 345, y = 1)
+            Label(frame_instrucciones, text = "Instrucciones:", bg = "#0e212e", font = ("Impact", 12), fg = "Light grey").place(x = 345, y = 1)
 
-            Label(frame_instrucciones, text = "1.", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 10, y = 51)
+            Label(frame_instrucciones, text = "1.", bg = "#0e212e", font = ("Impact", 12), fg = "Light grey").place(x = 10, y = 51)
 
             Label(frame_instrucciones, text = "Usa las flechas de tu teclado para esquivar los asteroides.", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 35, y = 51)
 
-            Label(frame_instrucciones, text = "2.", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 10, y = 111)
+            Label(frame_instrucciones, text = "2.", bg = "#0e212e", font = ("Impact", 12), fg = "Light grey").place(x = 10, y = 111)
 
             Label(frame_instrucciones, text = "Sobrevive por un minuto para pasar al siguiente nivel.", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 35, y = 111)
 
-            Label(frame_instrucciones, text = "3.", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 10, y = 161)
+            Label(frame_instrucciones, text = "3.", bg = "#0e212e", font = ("Impact", 12), fg = "Light grey").place(x = 10, y = 161)
 
             Label(frame_instrucciones, text = "No dejes que los asteroides te toquen, te quitarán vidas (cuentas con tres vidas).", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 35, y = 161)
 
-            Label(frame_instrucciones, text = "4.", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 10, y = 221)
+            Label(frame_instrucciones, text = "4.", bg = "#0e212e", font = ("Impact", 12), fg = "Light grey").place(x = 10, y = 221)
 
             Label(frame_instrucciones, text = "¡Diviértete!", bg = "#0e212e", font = ("Impact", 12), fg = "#807e7e").place(x = 35, y = 221)
 
-            Label(frame_instrucciones, text = "¡Gracias por jugar :D!", bg = "#0e212e", font = ("Impact", 12), fg = "Black").place(x = 325, y = 281)
+            Label(frame_instrucciones, text = "¡Gracias por jugar :D!", bg = "#0e212e", font = ("Impact", 12), fg = "Light grey").place(x = 325, y = 281)
 
             # Fondo ayuda
             canvas_ayuda.create_image(0, 0, anchor=NW, image=bg_principal)
