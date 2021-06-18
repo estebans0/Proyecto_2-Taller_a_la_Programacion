@@ -77,6 +77,8 @@ class Nivel1:
         self.tiempo_de_inicio = datetime.datetime.now()
         self.label_jugador = None
         self.label_tiempo = None
+        self.label_puntaje = None
+        self.puntaje = 0 
 
 # Clase nivel 2:
 class Nivel2:
@@ -91,6 +93,8 @@ class Nivel2:
         self.tiempo_de_inicio = datetime.datetime.now()
         self.label_jugador = None
         self.label_tiempo = None
+        self.label_puntaje = None
+        self.puntaje = 0
 
 # Clase nivel 3:
 class Nivel3:
@@ -106,8 +110,16 @@ class Nivel3:
         self.tiempo_de_inicio = datetime.datetime.now()
         self.label_jugador = None
         self.label_tiempo = None
+        self.label_puntaje = None
+        self.puntaje = 0
 
 # Funciones importantes (renderización, actualización, movimiento):
+# Función para el tiempo. Será un cronómetro que mostrará el tiempo restante en la etiqueta de tiempo que aparece en la pantalla del nivel:
+def cronometro(fecha_inicio):
+    fecha_actual = datetime.datetime.now()
+    segundos = fecha_actual - fecha_inicio
+    return segundos.seconds 
+    
 # Función de renderización:
 def renderizacion(nivel, canvas_nivel, pantalla_nivel):
 
@@ -200,18 +212,32 @@ def renderizacion(nivel, canvas_nivel, pantalla_nivel):
             # Etiqueta en la que se visualizará la vida y nombre del jugador:
             etiqueta_jugador = Label(canvas_nivel, text = "{}: {}".format(nivel.jugador.nombre_jugador, nivel.jugador.vidas), bg = "Black", fg = "White", font = ("Impact", 15))
             etiqueta_jugador.place(x = 20, y = 200)
+            nivel.label_jugador = etiqueta_jugador
 
             # Etiqueta en la que se visualizará el tiempo trasncurrido:
-            etiqueta_tiempo = Label(canvas_nivel, text = "Tiempo transcurrido: {}".format(nivel.tiempo_de_inicio), bg = "Black", fg = "White", font = ("Impact", 15))
+            etiqueta_tiempo = Label(canvas_nivel, text = "Tiempo restante: {}".format(60 - cronometro(nivel.tiempo_de_inicio)), bg = "Black", fg = "White", font = ("Impact", 15))
             etiqueta_tiempo.place(x = 20, y = 250)
+            nivel.label_tiempo = etiqueta_tiempo
 
             # Etiqueta en la que se visualizará el nivel
             etiqueta_nivel = Label(canvas_nivel, text = "Nivel: {}".format(nivel.nivel), bg = "Black", fg = "White", font = ("Impact", 15))
             etiqueta_nivel.place(x = 20, y = 300)
 
-            # Agregar etiqueta de puntaje:
 
-# Funciones del ciclo del juego: Prueba ----------------------------------------------------------------
+            # Agregar etiqueta de puntaje:
+            etiqueta_puntuacion = Label(canvas_nivel, text = "Puntaje: {}".format(nivel.puntaje), bg = "Black", fg = "White", font = ("Impact", 15))
+            etiqueta_puntuacion.place(x = 20, y = 350)
+            nivel.label_puntaje = etiqueta_puntuacion
+
+# Función que actualiza labels:
+def actualiza_puntaje(nivel):
+    nivel.puntaje = cronometro(nivel.tiempo_de_inicio)
+def actualiza_labels(nivel):
+    nivel.label_jugador["text"] = "{}: {}".format(nivel.jugador.nombre_jugador, nivel.jugador.vidas)
+    tiempo = 60 - cronometro(nivel.tiempo_de_inicio)
+    nivel.label_tiempo["text"] = "Tiempo restante: {}".format(tiempo)
+    nivel.label_puntaje["text"] = "Puntaje: {}".format(nivel.puntaje)
+
 # Movimiento asteroides:
 def movimiento_asteroides(nivel, canvas_nivel, pantalla_nivel):
 
@@ -363,116 +389,250 @@ def movimiento_asteroides(nivel, canvas_nivel, pantalla_nivel):
             golpe_sonido.play()
             nivel.asteroide_5.direccion_y = 1
             nivel.asteroide_5.direccion_x = random.randint(-1, 1)
-# Prueba -----------------------------------------------------------------------------
 
-# Prueba, aún no sé si funcionará, ignorar por el momento ----------------------------------------------------------
-# Función de detección de colisiones:
-# Función de detección de colisiones, nivel 1:
+# Función de detección de colisiones que detectará, a través de las "bboxes" de los objetos, si hubo algún choque entre alguno de los asteroides y la nave:
+def detect_colisiones(jugador, asteroide):
+
+    if jugador[0] < asteroide[2] < jugador[2] and jugador[1] < asteroide[1] < jugador[3]:
+        colision_sonido = mixer.Sound("explosion_asteroide.wav")
+        colision_sonido.play()
+        return True
+
+    elif jugador[0] < asteroide[2] < jugador[2] and jugador[1] < asteroide[3] < jugador[3]:
+        colision_sonido = mixer.Sound("explosion_asteroide.wav")
+        colision_sonido.play()
+        return True
+
+    elif jugador[0] < asteroide[0] < jugador[2] and jugador[1] < asteroide[3] < jugador[3]:
+        colision_sonido = mixer.Sound("explosion_asteroide.wav")
+        colision_sonido.play()
+        return True
+
+    elif jugador[0] < asteroide[0] < jugador[2] and jugador[1] < asteroide[1] < jugador[3]:
+        colision_sonido = mixer.Sound("explosion_asteroide.wav")
+        colision_sonido.play()
+        return True
+        
+    else:
+        return False
+
+# Función de detección de colisiones para el nivel 1:
 def deteccion_colisiones_1(canvas_nivel, nave, obstaculo_1, obstaculo_2, obstaculo_3):
     # "Hitbox" de cada objeto (Bbox):
-    nave_bbox = canvas_nivel.bbox(nave)
+    nave_bbox = canvas_nivel.bbox(nave.canvas)
 
-    obstaculo1_bbox = canvas_nivel.bbox(obstaculo_1)
-    obstaculo2_bbox = canvas_nivel.bbox(obstaculo_2)
-    obstaculo3_bbox = canvas_nivel.bbox(obstaculo_3)
+    obstaculo1_bbox = canvas_nivel.bbox(obstaculo_1.canvas)
+    obstaculo2_bbox = canvas_nivel.bbox(obstaculo_2.canvas)
+    obstaculo3_bbox = canvas_nivel.bbox(obstaculo_3.canvas)
 
-    # Detección de la colisión:
-    if nave_bbox[0] < obstaculo1_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[1] < nave_bbox[3]:
-        return True
-    elif nave_bbox[0] < obstaculo1_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[3] < nave_bbox[3]:
-        return True
-    elif nave_bbox[0] < obstaculo1_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[3] < nave_bbox[3]:
-        return True
-    elif nave_bbox[0] < obstaculo1_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[1] < nave_bbox[3]:
-        return True
+    colision1 = detect_colisiones(nave_bbox, obstaculo1_bbox)
+    colision2 = detect_colisiones(nave_bbox, obstaculo2_bbox)
+    colision3 = detect_colisiones(nave_bbox, obstaculo3_bbox)
+
+    resultado1 = False
+    resultado2 = False
+    resultado3 = False
+
+    # Asteroide 1
+    if colision1 == True:
+
+        if obstaculo_1.fuerza == 1:
+            resultado1 = True
+            obstaculo_1.fuerza = 0
+
     else:
-        return False
+        obstaculo_1.fuerza = 1
+    
+    # Asteroide 2
+    if colision2 == True:
 
-# Función de colisiones, nivel 2:
+        if obstaculo_2.fuerza == 1:
+            resultado2 = True
+            obstaculo_2.fuerza = 0
+
+    else:
+        obstaculo_2.fuerza = 1
+    
+    # Asteroide 3
+    if colision3 == True:
+
+        if obstaculo_3.fuerza == 1:
+            resultado3 = True
+            obstaculo_3.fuerza = 0
+
+    else:
+        obstaculo_3.fuerza = 1
+    
+    return resultado1 or resultado2 or resultado3
+
+# Función de detección de colisiones para el nivel 2:
 def deteccion_colisiones_2(canvas_nivel, nave, obstaculo_1, obstaculo_2, obstaculo_3, obstaculo_4):
     # "Hitbox" de cada objeto (Bbox):
-    nave_bbox = canvas_nivel.bbox(nave)
+    nave_bbox = canvas_nivel.bbox(nave.canvas)
 
-    obstaculo1_bbox = canvas_nivel.bbox(obstaculo_1)
-    obstaculo2_bbox = canvas_nivel.bbox(obstaculo_2)
-    obstaculo3_bbox = canvas_nivel.bbox(obstaculo_3)
-    obstaculo4_bbox = canvas_nivel.bbox(obstaculo_4)
+    obstaculo1_bbox = canvas_nivel.bbox(obstaculo_1.canvas)
+    obstaculo2_bbox = canvas_nivel.bbox(obstaculo_2.canvas)
+    obstaculo3_bbox = canvas_nivel.bbox(obstaculo_3.canvas)
+    obstaculo4_bbox = canvas_nivel.bbox(obstaculo_4.canvas)
 
-    # Detección de la colisión:
-    if nave_bbox[0] < obstaculo1_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo4_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo4_bbox[1] < nave_bbox[3]:
-        return True
-    elif nave_bbox[0] < obstaculo1_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo4_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo4_bbox[3] < nave_bbox[3]:
-        return True
-    elif nave_bbox[0] < obstaculo1_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo4_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo4_bbox[3] < nave_bbox[3]:
-        return True
-    elif nave_bbox[0] < obstaculo1_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo4_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo4_bbox[1] < nave_bbox[3]:
-        return True
+    colision1 = detect_colisiones(nave_bbox, obstaculo1_bbox)
+    colision2 = detect_colisiones(nave_bbox, obstaculo2_bbox)
+    colision3 = detect_colisiones(nave_bbox, obstaculo3_bbox)
+    colision4 = detect_colisiones(nave_bbox, obstaculo4_bbox)
+
+    resultado1 = False
+    resultado2 = False
+    resultado3 = False
+    resultado4 = False
+
+    # Asteroide 1
+    if colision1 == True:
+
+        if obstaculo_1.fuerza == 1:
+            resultado1 = True
+            obstaculo_1.fuerza = 0
+
     else:
-        return False
+        obstaculo_1.fuerza = 1
+    
+    # Asteroide 2
+    if colision2 == True:
 
-# Función de colisiones, nivel 3:
+        if obstaculo_2.fuerza == 1:
+            resultado2 = True
+            obstaculo_2.fuerza = 0
+
+    else:
+        obstaculo_2.fuerza = 1
+    
+    # Asteroide 3
+    if colision3 == True:
+
+        if obstaculo_3.fuerza == 1:
+            resultado3 = True
+            obstaculo_3.fuerza = 0
+
+    else:
+        obstaculo_3.fuerza = 1
+    
+    # Asteroide 4
+    if colision4 == True:
+
+        if obstaculo_4.fuerza == 1:
+            resultado4 = True
+            obstaculo_4.fuerza = 0
+
+    else:
+        obstaculo_4.fuerza = 1
+    
+    return resultado1 or resultado2 or resultado3 or resultado4
+
+# Función de detección de colisiones para el nivel 3:
 def deteccion_colisiones_3(canvas_nivel, nave, obstaculo_1, obstaculo_2, obstaculo_3, obstaculo_4, obstaculo_5):
     # "Hitbox" de cada objeto (Bbox):
-    nave_bbox = canvas_nivel.bbox(nave)
+    nave_bbox = canvas_nivel.bbox(nave.canvas)
 
-    obstaculo1_bbox = canvas_nivel.bbox(obstaculo_1)
-    obstaculo2_bbox = canvas_nivel.bbox(obstaculo_2)
-    obstaculo3_bbox = canvas_nivel.bbox(obstaculo_3)
-    obstaculo4_bbox = canvas_nivel.bbox(obstaculo_4)
-    obstaculo5_bbox = canvas_nivel.bbox(obstaculo_5)
+    obstaculo1_bbox = canvas_nivel.bbox(obstaculo_1.canvas)
+    obstaculo2_bbox = canvas_nivel.bbox(obstaculo_2.canvas)
+    obstaculo3_bbox = canvas_nivel.bbox(obstaculo_3.canvas)
+    obstaculo4_bbox = canvas_nivel.bbox(obstaculo_4.canvas)
+    obstaculo5_bbox = canvas_nivel.bbox(obstaculo_5.canvas)
 
-    # Detección de la colisión:
-    if nave_bbox[0] < obstaculo1_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo4_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo4_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo5_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo5_bbox[1] < nave_bbox[3]:
-        return True
-    elif nave_bbox[0] < obstaculo1_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo4_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo4_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo5_bbox[2] < nave_bbox[2] and nave_bbox[1] < obstaculo5_bbox[3] < nave_bbox[3]:
-        return True
-    elif nave_bbox[0] < obstaculo1_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo4_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo4_bbox[3] < nave_bbox[3] or nave_bbox[0] < obstaculo5_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo5_bbox[3] < nave_bbox[3]:
-        return True
-    elif nave_bbox[0] < obstaculo1_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo1_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo2_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo2_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo3_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo3_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo4_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo4_bbox[1] < nave_bbox[3] or nave_bbox[0] < obstaculo5_bbox[0] < nave_bbox[2] and nave_bbox[1] < obstaculo5_bbox[1] < nave_bbox[3]:
-        return True
+    colision1 = detect_colisiones(nave_bbox, obstaculo1_bbox)
+    colision2 = detect_colisiones(nave_bbox, obstaculo2_bbox)
+    colision3 = detect_colisiones(nave_bbox, obstaculo3_bbox)
+    colision4 = detect_colisiones(nave_bbox, obstaculo4_bbox)
+    colision5 = detect_colisiones(nave_bbox, obstaculo5_bbox)
+
+    resultado1 = False
+    resultado2 = False
+    resultado3 = False
+    resultado4 = False
+    resultado5 = False
+
+    # Asteroide 1
+    if colision1 == True:
+
+        if obstaculo_1.fuerza == 1:
+            resultado1 = True
+            obstaculo_1.fuerza = 0
+
     else:
-        return False
+        obstaculo_1.fuerza = 1
+    
+    # Asteroide 2
+    if colision2 == True:
 
-# Función de colisiones, general:
+        if obstaculo_2.fuerza == 1:
+            resultado2 = True
+            obstaculo_2.fuerza = 0
+
+    else:
+        obstaculo_2.fuerza = 1
+    
+    # Asteroide 3
+    if colision3 == True:
+
+        if obstaculo_3.fuerza == 1:
+            resultado3 = True
+            obstaculo_3.fuerza = 0
+
+    else:
+        obstaculo_3.fuerza = 1
+    
+    # Asteroide 4
+    if colision4 == True:
+
+        if obstaculo_4.fuerza == 1:
+            resultado4 = True
+            obstaculo_4.fuerza = 0
+
+    else:
+        obstaculo_4.fuerza = 1
+
+    # Asteroide 5
+    if colision5 == True:
+
+        if obstaculo_5.fuerza == 1:
+            resultado5 = True
+            obstaculo_5.fuerza = 0
+
+    else:
+        obstaculo_5.fuerza = 1
+    
+    return resultado1 or resultado2 or resultado3 or resultado4 or resultado5
+
+# Función de colisiones, general (evaluará el nivel en el que se está para llamar a uno u otra función de colisiones):
 def deteccion_colisiones_gen(nivel, canvas_nivel):
 
     if nivel.nivel == 1:
-        return deteccion_colisiones_1(canvas_nivel, nivel.jugador, nivel.asteroide_1, nivel.asteroide_2, nivel.asteroide_3) # Se quitó parámetro nivel, evaluar si es útil.
+        return deteccion_colisiones_1(canvas_nivel, nivel.jugador, nivel.asteroide_1, nivel.asteroide_2, nivel.asteroide_3)
     elif nivel.nivel == 2:
         return deteccion_colisiones_2(canvas_nivel, nivel.jugador, nivel.asteroide_1, nivel.asteroide_2, nivel.asteroide_3, nivel.asteroide_4)
     else:
         return deteccion_colisiones_3(canvas_nivel, nivel.jugador, nivel.asteroide_1, nivel.asteroide_2, nivel.asteroide_3, nivel.asteroide_4, nivel.asteroide_5)
 
-# Función que quitará la vida de ser que hubo una colisión:
+# Función que quitará la vida en caso de que, en efecto, se haya dado una colisión:
 def asteroide_golpea_jugador(nivel, canvas_nivel):
 
     if deteccion_colisiones_gen(nivel, canvas_nivel) == True:
         nivel.jugador.vidas -= 1
-# Prueba, aún no sé si funcionará, ignorar por el momento -----------------------------------------------
 
-# Más pruebas: ----------------------------------------------------
 # Función de actualización:
 def actualizar_juego(nivel, canvas_nivel, pantalla_nivel):
-    movimiento_asteroides(nivel, canvas_nivel, pantalla_nivel) # Hace falta agregar funciones, como la de colisión
-    
+    movimiento_asteroides(nivel, canvas_nivel, pantalla_nivel)
+    asteroide_golpea_jugador(nivel, canvas_nivel)
+    actualiza_puntaje(nivel)
+    actualiza_labels(nivel)
 
-# Función continua_juego (a esta haría falta agregarle la condición del tiempo, que sería la condición de victoria por supervivencia) y ciclo del juego:
+# Función continua_juego:
 def continua_juego(nivel):
     if nivel.jugador.vidas <= 0:
         return -1
+    elif cronometro(nivel.tiempo_de_inicio) == 60:
+        return 1
     else:
         return 0
-
-def ciclo_juego(nivel, canvas_nivel, pantalla_nivel): # Es probable que haga falta agregar una función, como de colisión.
-    renderizacion(nivel, canvas_nivel, pantalla_nivel)
-    actualizar_juego(nivel, canvas_nivel, pantalla_nivel)
-    
-
-    continuar = continua_juego(nivel)
-    if continuar == 0:
-        pantalla_nivel.after(100, ciclo_juego, nivel, canvas_nivel, pantalla_nivel) # Haría falta agregar las condiciones de victoria y de "game over"
-
-# Prueba: ----------------------------------------------------
 
 # Creamos la raíz sobre la que se desarrollará el videojuego. 
 raiz_juego = Tk()
@@ -483,7 +643,7 @@ mixer.music.load("tema_principal.wav")
 mixer.music.play(-1)
 
 # Personalización de la raiz:
-raiz_juego.title("Nombre del juego") 
+raiz_juego.title("Starscape") 
 
 raiz_juego.iconbitmap("Icono_proyecto2.ico")
 
@@ -987,7 +1147,127 @@ def funcion_jugar():
         # Entry sobre el que se digita el nombre:
         nombre_jugador = Entry(canvas_niveles, text = "Introduzca su nombre:", bg = "White")
 
-        nombre_jugador.place(x = 690, y = 600) 
+        nombre_jugador.place(x = 690, y = 600)
+
+        # Frames que aparecerán en la pantalla de nivel después de cierto evento (perder o ganar la partida):
+        # Frame de victoria (será el cuadro que aparece al ganar la partida):
+        def frame_de_victoria(nivel, canvas_nivel, pantalla_nivel):
+
+            if nivel.nivel == 1 or nivel.nivel == 2:
+                frame_victoria = Frame(canvas_nivel, width = 680, height = 400)
+                frame_victoria.place(x = 340, y = 180)
+
+                frame_victoria.config(bg = "#0e212e")
+                frame_victoria.config(bd = 10)
+                frame_victoria.config(relief = "groove")
+
+                Label(canvas_nivel, text = "¡Victoria!", bg = "#0e212e", fg = "White", font = ("Impact", 25)).place(x = 615, y = 250)
+
+                # Funciones asignadas a los botones:
+                def siguiente_nivel():
+                    pantalla_nivel.destroy()
+                    if nivel.nivel == 1:
+                        Nivel_2()
+                    elif nivel.nivel == 2:
+                        Nivel_3()
+                def atras():
+                    pantalla_nivel.destroy()
+
+                    # Parar musica del nivel y repoducir tema principal
+                    mixer.music.stop()
+
+                    mixer.music.load("tema_principal.wav")
+
+                    mixer.music.play(-1)
+
+                # Botones del frame:
+                boton_siguiente = Button(frame_victoria, text = "Siguiente nivel", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = siguiente_nivel)
+                boton_siguiente.place(x = 335, y = 280)
+
+                boton_atras = Button(frame_victoria, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras)
+                boton_atras.place(x = 245, y = 280)
+            else:
+                frame_victoria = Frame(canvas_nivel, width = 680, height = 400)
+                frame_victoria.place(x = 340, y = 180)
+
+                frame_victoria.config(bg = "#0e212e")
+                frame_victoria.config(bd = 10)
+                frame_victoria.config(relief = "groove")
+
+                Label(canvas_nivel, text = "¡Victoria!", bg = "#0e212e", fg = "White", font = ("Impact", 25)).place(x = 615, y = 250)
+
+                # Función del botón "Atrás"
+                def atras():
+                    pantalla_nivel.destroy()
+
+                    # Parar musica del nivel y repoducir tema principal
+                    mixer.music.stop()
+
+                    mixer.music.load("tema_principal.wav")
+
+                    mixer.music.play(-1)
+        
+                # Botón "Atrás":
+                boton_atras = Button(frame_victoria, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras)
+                boton_atras.place(x = 295, y = 280)
+        
+        # Pantalla que se muestra al perder el juego:
+        def frame_perdiste(nivel, canvas_nivel, pantalla_nivel):
+            frame_perder = Frame(canvas_nivel, width = 680, height = 400)
+            frame_perder.place(x = 340, y = 180)
+
+            frame_perder.config(bg = "#0e212e")
+            frame_perder.config(bd = 10)
+            frame_perder.config(relief = "groove")
+
+            Label(canvas_nivel, text = "¡Has perdido!", bg = "#0e212e", fg = "White", font = ("Impact", 25)).place(x = 615, y = 250)
+
+            # Button, functions:
+            def intentar_de_nuevo():
+                pantalla_nivel.destroy()
+                if nivel.nivel == 1:
+                    Nivel_1()
+
+                elif nivel.nivel == 2:
+                    Nivel_2()
+
+                elif nivel.nivel == 3:
+                    Nivel_3()
+
+            def atras():
+                pantalla_nivel.destroy()
+
+                # Parar musica del nivel y repoducir tema principal
+                mixer.music.stop()
+
+                mixer.music.load("tema_principal.wav")
+
+                mixer.music.play(-1)
+
+            # Buttons:
+            Intentar_de_nuevo_boton = Button(frame_perder, text = "Intentar de nuevo", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = intentar_de_nuevo)
+            Intentar_de_nuevo_boton.place(x = 335, y = 280)
+
+            boton_atras = Button(frame_perder, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras)
+            boton_atras.place(x = 245, y = 280)
+
+        # Esta es la función que llevará el ciclo del juego, mientras el estado del juego sea 0, la función se seguirá ejecutando. 
+        def ciclo_juego(nivel, canvas_nivel, pantalla_nivel):
+
+            renderizacion(nivel, canvas_nivel, pantalla_nivel)
+
+            actualizar_juego(nivel, canvas_nivel, pantalla_nivel)
+    
+            continuar = continua_juego(nivel)
+
+            if continuar == 0:
+                pantalla_nivel.after(100, ciclo_juego, nivel, canvas_nivel, pantalla_nivel)
+
+            elif continuar == -1:
+                frame_perdiste(nivel, canvas_nivel, pantalla_nivel)
+
+            else:
+                frame_de_victoria(nivel, canvas_nivel, pantalla_nivel)
 
     # Botones de la pantalla de selección:
     # Botón de la pantalla complementaria:
