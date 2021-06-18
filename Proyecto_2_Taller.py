@@ -242,8 +242,14 @@ def renderizacion(nivel, canvas_nivel, pantalla_nivel):
 # Función que actualiza labels:
 # Función encargada de actualizar el puntaje que se lleva. Como este puntaje es equivalente al tiempo trasncurrido, entonces se le hace una llamada a la función "cronómetro".
 def actualiza_puntaje(nivel):
+    if nivel.nivel == 1:
+        nivel.puntaje = cronometro(nivel.tiempo_de_inicio)
 
-    nivel.puntaje = cronometro(nivel.tiempo_de_inicio)
+    if nivel.nivel == 2:
+        nivel.puntaje = int(cronometro(nivel.tiempo_de_inicio)) * 3
+
+    if nivel.nivel == 3:
+        nivel.puntaje = int(cronometro(nivel.tiempo_de_inicio)) * 5
 
 # Función encargada de actualizar, visualmente, la información de los labels:
 def actualiza_labels(nivel):
