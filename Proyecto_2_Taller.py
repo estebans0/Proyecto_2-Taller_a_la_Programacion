@@ -1,3 +1,4 @@
+# Bibliotecas y módulos que se utilizarán:
 from tkinter import *
 import datetime
 import random
@@ -24,7 +25,7 @@ class Jugador:
             self.posicion_x = self.posicion_x + pixeles
             return pixeles
         else:
-            return 0 # Si se pasó del límite, retornará 0, es decir, se moverá 0 pixeles.
+            return 0 # Si se pasó del límite, retornará 0, es decir, la nave se moverá 0 pixeles.
     
     def movimiento_izquierdo(self, pixeles): 
 
@@ -55,14 +56,14 @@ class Jugador:
 class Asteroides:
     def __init__(self, sprite, posicion_x, posicion_y):
 
-        self.fuerza = 1 # Valor predeterminado (siempre quitará una vida)
+        self.fuerza = 1 # La fuerza es un atributo que se podría ver como: "El asteroide quita" (1) o "el asteroide NO quita vida" (0)
         self.vida = 1 # La vida de los asteroides siempre será uno
         self.sprite = sprite
         self.canvas = ""
         self.posicion_x = posicion_x
         self.posicion_y = posicion_y
         self.direccion_x = 1 # Es un valor temporal, cuando el asteroide llegue a un límite, el valor cambiará si signo, cambiando así la trayectoria horizontal
-        self.direccion_y = 1
+        self.direccion_y = 1 # Es un valor temporal, cuando el asteroide llegue a un límite, el valor cambiará si signo, cambiando así la trayectoria vertical
 
 # Clases, "Nivel n":
 # Clase nivel 1:
@@ -116,8 +117,13 @@ class Nivel3:
 # Funciones importantes (renderización, actualización, movimiento):
 # Función para el tiempo. Será un cronómetro que mostrará el tiempo restante en la etiqueta de tiempo que aparece en la pantalla del nivel:
 def cronometro(fecha_inicio):
+    # Cada vez que se le haga una llamada a la función, se pedirá la fecha de ese momento.
     fecha_actual = datetime.datetime.now()
+
+    # Se hará una diferencia entre la fecha actual y la fecha de inicio, siendo esta última la fecha en la que inició la partida.
     segundos = fecha_actual - fecha_inicio
+
+    # A través de un método propio del módulo "Time", se retornará la diferencia entre ambas fechas en segundos.
     return segundos.seconds 
     
 # Función de renderización:
@@ -153,13 +159,13 @@ def renderizacion(nivel, canvas_nivel, pantalla_nivel):
             y = nivel.jugador.movimiento_abajo(10)
             canvas_nivel.move(nave_jugador_canvas, x, y)
 
-        # Asignación de teclas para el movimiento del jugador:
+        # Asignación de teclas para el movimiento del jugador (eventos con los que las funciones anteriores son llamadas):
         pantalla_nivel.bind("<Right>", movimiento_hacia_derecha)
         pantalla_nivel.bind("<Left>", movimiento_hacia_izquierda)
         pantalla_nivel.bind("<Up>", movimiento_hacia_arriba)
         pantalla_nivel.bind("<Down>", movimiento_hacia_abajo)
         
-        # Cargar y renderizar canvas de los asteroides:
+        # Cargar y renderizar canvas de los asteroides en caso de que aún no se haya llevado este proceso a cabo:
         # Nivel 1:
         if nivel.nivel == 1:
 
@@ -173,6 +179,7 @@ def renderizacion(nivel, canvas_nivel, pantalla_nivel):
                 asteroide3 = canvas_nivel.create_image(nivel.asteroide_3.posicion_x, nivel.asteroide_3.posicion_y, anchor = NW, image = nivel.asteroide_3.sprite)
                 nivel.asteroide_3.canvas = asteroide3
 
+        # Nivel 2:
         if nivel.nivel == 2:
 
             if nivel.asteroide_1.canvas == "" and nivel.asteroide_2.canvas == "" and nivel.asteroide_3.canvas == "" and nivel.asteroide_4.canvas == "":
@@ -188,6 +195,7 @@ def renderizacion(nivel, canvas_nivel, pantalla_nivel):
                 asteroide4 = canvas_nivel.create_image(nivel.asteroide_4.posicion_x, nivel.asteroide_4.posicion_y, anchor=NW, image=nivel.asteroide_4.sprite)
                 nivel.asteroide_4.canvas = asteroide4
 
+        # Nivel 3:
         if nivel.nivel == 3:
 
             if nivel.asteroide_1.canvas == "" and nivel.asteroide_2.canvas == "" and nivel.asteroide_3.canvas == "" and nivel.asteroide_4.canvas == "" and nivel.asteroide_5.canvas == "":
@@ -212,7 +220,7 @@ def renderizacion(nivel, canvas_nivel, pantalla_nivel):
             # Etiqueta en la que se visualizará la vida y nombre del jugador:
             etiqueta_jugador = Label(canvas_nivel, text = "{}: {}".format(nivel.jugador.nombre_jugador, nivel.jugador.vidas), bg = "Black", fg = "White", font = ("Impact", 15))
             etiqueta_jugador.place(x = 20, y = 200)
-            nivel.label_jugador = etiqueta_jugador
+            nivel.label_jugador = etiqueta_jugador 
 
             # Etiqueta en la que se visualizará el tiempo trasncurrido:
             etiqueta_tiempo = Label(canvas_nivel, text = "Tiempo restante: {}".format(60 - cronometro(nivel.tiempo_de_inicio)), bg = "Black", fg = "White", font = ("Impact", 15))
@@ -229,13 +237,23 @@ def renderizacion(nivel, canvas_nivel, pantalla_nivel):
             etiqueta_puntuacion.place(x = 20, y = 350)
             nivel.label_puntaje = etiqueta_puntuacion
 
+        # Note que siempre que se renderiza algo, ya sea un sprite o un label, este se carga en el atributo de la clase respectivo para que no vuelva a entrar en las condiciones de renderización.
+
 # Función que actualiza labels:
+# Función encargada de actualizar el puntaje que se lleva. Como este puntaje es equivalente al tiempo trasncurrido, entonces se le hace una llamada a la función "cronómetro".
 def actualiza_puntaje(nivel):
+
     nivel.puntaje = cronometro(nivel.tiempo_de_inicio)
+
+# Función encargada de actualizar, visualmente, la información de los labels:
 def actualiza_labels(nivel):
+
     nivel.label_jugador["text"] = "{}: {}".format(nivel.jugador.nombre_jugador, nivel.jugador.vidas)
+
+    # Esta resta se hace para que el tiempo vaya de 60 a 0 segundos y no de 0 a 60 segundos.
     tiempo = 60 - cronometro(nivel.tiempo_de_inicio)
     nivel.label_tiempo["text"] = "Tiempo restante: {}".format(tiempo)
+
     nivel.label_puntaje["text"] = "Puntaje: {}".format(nivel.puntaje)
 
 # Movimiento asteroides:
@@ -390,7 +408,7 @@ def movimiento_asteroides(nivel, canvas_nivel, pantalla_nivel):
             nivel.asteroide_5.direccion_y = 1
             nivel.asteroide_5.direccion_x = random.randint(-1, 1)
 
-# Función de detección de colisiones que detectará, a través de las "bboxes" de los objetos, si hubo algún choque entre alguno de los asteroides y la nave:
+# Función de detección de colisiones que detectará, a través de las "bboxes" de los objetos, si hubo algún choque entre la nave y el asteroide enviado como argumento:
 def detect_colisiones(jugador, asteroide):
 
     if jugador[0] < asteroide[2] < jugador[2] and jugador[1] < asteroide[1] < jugador[3]:
@@ -418,17 +436,21 @@ def detect_colisiones(jugador, asteroide):
 
 # Función de detección de colisiones para el nivel 1:
 def deteccion_colisiones_1(canvas_nivel, nave, obstaculo_1, obstaculo_2, obstaculo_3):
-    # "Hitbox" de cada objeto (Bbox):
+    # "Hitbox" de cada objeto ("Bbox"):
+    # "Bbox" de la nave:
     nave_bbox = canvas_nivel.bbox(nave.canvas)
 
+    # "Bbox" de cada asteroide del nivel:
     obstaculo1_bbox = canvas_nivel.bbox(obstaculo_1.canvas)
     obstaculo2_bbox = canvas_nivel.bbox(obstaculo_2.canvas)
     obstaculo3_bbox = canvas_nivel.bbox(obstaculo_3.canvas)
 
-    colision1 = detect_colisiones(nave_bbox, obstaculo1_bbox)
-    colision2 = detect_colisiones(nave_bbox, obstaculo2_bbox)
-    colision3 = detect_colisiones(nave_bbox, obstaculo3_bbox)
+    # Estas variables almacenarán los valores booleanos de colisión para cada asteroide (True: Hubo colisión, False: No hubo colisión):
+    colision1 = detect_colisiones(nave_bbox, obstaculo1_bbox) # Función evalúa si hubo una colisión entre la nave y el asteroide 1
+    colision2 = detect_colisiones(nave_bbox, obstaculo2_bbox) # Función evalúa si hubo una colisión entre la nave y el asteroide 2
+    colision3 = detect_colisiones(nave_bbox, obstaculo3_bbox) # Función evalúa si hubo una colisión entre la nave y el asteroide 3
 
+    # Serán las variables que la función retornrá. Dependiendo del valor booleano que alguno de los resultados almacene, se quitará un punto de vida (si es True, se quitará ese punto de vida) 
     resultado1 = False
     resultado2 = False
     resultado3 = False
@@ -437,11 +459,11 @@ def deteccion_colisiones_1(canvas_nivel, nave, obstaculo_1, obstaculo_2, obstacu
     if colision1 == True:
 
         if obstaculo_1.fuerza == 1:
-            resultado1 = True
-            obstaculo_1.fuerza = 0
+            resultado1 = True # Si hubo colisión y la fuerza (que se puede ver como un "modo daño" del asteroide) estaba en 1, entonces el valor que retornará la función será "True" por lo que al evaluarse en la función "asteroide_golpea_jugador" al jugador se le disminuirá una vida.
+            obstaculo_1.fuerza = 0 # La fuerza se pone en cero porque habrá unos pocos milisegundos en los que la nave seguirá chocando con el asteroide, por lo que para que la función no siga detectando eso como una colisión y no siga bajando de vida, entonces la fuerza se pone en cero para que en la próxima evaluación no entre en la condición que pone a "resultado1" en "True" para que así, no se le siga quitando vida al jugador.
 
     else:
-        obstaculo_1.fuerza = 1
+        obstaculo_1.fuerza = 1 # La fuerza se vuelve a poner en uno una vez el asteroide y la nave no están chocando para que la próxima vez que colisionen, sí se quite el punto de vida del jugador.
     
     # Asteroide 2
     if colision2 == True:
@@ -463,13 +485,16 @@ def deteccion_colisiones_1(canvas_nivel, nave, obstaculo_1, obstaculo_2, obstacu
     else:
         obstaculo_3.fuerza = 1
     
-    return resultado1 or resultado2 or resultado3
+    # Basta con que uno de los resultados sea "True" para que la función retorne "True"
+    return resultado1 or resultado2 or resultado3 
 
-# Función de detección de colisiones para el nivel 2:
+# Función de detección de colisiones para el nivel 2 (funciona igual que la función de detección de colisiones del nivel 1, solo que implementa un cuarto asteroide):
 def deteccion_colisiones_2(canvas_nivel, nave, obstaculo_1, obstaculo_2, obstaculo_3, obstaculo_4):
     # "Hitbox" de cada objeto (Bbox):
+    # "Bbox" de la nave:
     nave_bbox = canvas_nivel.bbox(nave.canvas)
 
+    # "Bbox" de cada asteroide del nivel:
     obstaculo1_bbox = canvas_nivel.bbox(obstaculo_1.canvas)
     obstaculo2_bbox = canvas_nivel.bbox(obstaculo_2.canvas)
     obstaculo3_bbox = canvas_nivel.bbox(obstaculo_3.canvas)
@@ -527,11 +552,13 @@ def deteccion_colisiones_2(canvas_nivel, nave, obstaculo_1, obstaculo_2, obstacu
     
     return resultado1 or resultado2 or resultado3 or resultado4
 
-# Función de detección de colisiones para el nivel 3:
+# Función de detección de colisiones para el nivel 3 (funciona igual que la función de detección de colisiones del nivel 1, solo que implementa un quinto asteroide):
 def deteccion_colisiones_3(canvas_nivel, nave, obstaculo_1, obstaculo_2, obstaculo_3, obstaculo_4, obstaculo_5):
     # "Hitbox" de cada objeto (Bbox):
+    # "Bbox" de la nave:
     nave_bbox = canvas_nivel.bbox(nave.canvas)
 
+    # "Bbox" de cada asteroide del nivel:
     obstaculo1_bbox = canvas_nivel.bbox(obstaculo_1.canvas)
     obstaculo2_bbox = canvas_nivel.bbox(obstaculo_2.canvas)
     obstaculo3_bbox = canvas_nivel.bbox(obstaculo_3.canvas)
@@ -602,7 +629,7 @@ def deteccion_colisiones_3(canvas_nivel, nave, obstaculo_1, obstaculo_2, obstacu
     
     return resultado1 or resultado2 or resultado3 or resultado4 or resultado5
 
-# Función de colisiones, general (evaluará el nivel en el que se está para llamar a uno u otra función de colisiones):
+# Función de colisiones, general (evaluará el nivel en el que se está para llamar a una u otra función de colisiones):
 def deteccion_colisiones_gen(nivel, canvas_nivel):
 
     if nivel.nivel == 1:
@@ -618,19 +645,23 @@ def asteroide_golpea_jugador(nivel, canvas_nivel):
     if deteccion_colisiones_gen(nivel, canvas_nivel) == True:
         nivel.jugador.vidas -= 1
 
-# Función de actualización:
+# Función de actualización (toda la información que conforme avanza la partida se va actualizando, va en esta función):
 def actualizar_juego(nivel, canvas_nivel, pantalla_nivel):
+
     movimiento_asteroides(nivel, canvas_nivel, pantalla_nivel)
     asteroide_golpea_jugador(nivel, canvas_nivel)
     actualiza_puntaje(nivel)
     actualiza_labels(nivel)
 
-# Función continua_juego:
+# Función continua_juego (evalua si el juego continua o no, dependiendo de si se ganó o se perdió):
 def continua_juego(nivel):
+    # Si la vida es igual o menor a 0, indicará que el jugador perdió, por lo que retornará -1
     if nivel.jugador.vidas <= 0:
         return -1
+    # Si el cronómetro llega a ser igual a 60 segundos (cada nivel dura un minuto) indicará que la partida terminó y que el jugador sobrevivió, retornrá 1
     elif cronometro(nivel.tiempo_de_inicio) == 60:
         return 1
+    # Si ninguna de las dos condiciones anteriores se cumplió, indicará que la partida puede continuar con normalidad, retornará un 0
     else:
         return 0
 
@@ -1152,7 +1183,8 @@ def funcion_jugar():
         # Frames que aparecerán en la pantalla de nivel después de cierto evento (perder o ganar la partida):
         # Frame de victoria (será el cuadro que aparece al ganar la partida):
         def frame_de_victoria(nivel, canvas_nivel, pantalla_nivel):
-
+            
+            # Dependiendo del nivel en el que se esté, se mostrará un "frame" de victoria u otro. La única diferencia es que en el "frame" de victoria del nivel 3 solo hay un botón para ir hacia a atrás, pues no hay más niveles después del tercero.
             if nivel.nivel == 1 or nivel.nivel == 2:
                 frame_victoria = Frame(canvas_nivel, width = 680, height = 400)
                 frame_victoria.place(x = 340, y = 180)
@@ -1186,6 +1218,8 @@ def funcion_jugar():
 
                 boton_atras = Button(frame_victoria, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras)
                 boton_atras.place(x = 245, y = 280)
+            
+            # Frame de victoria del nivel 3:
             else:
                 frame_victoria = Frame(canvas_nivel, width = 680, height = 400)
                 frame_victoria.place(x = 340, y = 180)
@@ -1222,7 +1256,7 @@ def funcion_jugar():
 
             Label(canvas_nivel, text = "¡Has perdido!", bg = "#0e212e", fg = "White", font = ("Impact", 25)).place(x = 615, y = 250)
 
-            # Button, functions:
+            # Funciones de los botones del "frame" que se muestra al perder:
             def intentar_de_nuevo():
                 pantalla_nivel.destroy()
                 if nivel.nivel == 1:
@@ -1244,14 +1278,15 @@ def funcion_jugar():
 
                 mixer.music.play(-1)
 
-            # Buttons:
+            # Botones del frame que se muestra al perder el nivel:
             Intentar_de_nuevo_boton = Button(frame_perder, text = "Intentar de nuevo", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = intentar_de_nuevo)
             Intentar_de_nuevo_boton.place(x = 335, y = 280)
 
             boton_atras = Button(frame_perder, text = "Atrás", padx = 10, pady = 5, font = "Impact", relief = "raised", bg = "Purple", command = atras)
             boton_atras.place(x = 245, y = 280)
 
-        # Esta es la función que llevará el ciclo del juego, mientras el estado del juego sea 0, la función se seguirá ejecutando. 
+        # Esta es la función que llevará el ciclo del juego, mientras el estado del juego sea 0, la función se seguirá ejecutando.
+        # Mientras la partida siga en pie, la función del ciclo del juego se seguirá llamando, y con ello, las funciones que en esta función se llaman también seguirán llamándose y cumpliendo con sus respectivas tareas.
         def ciclo_juego(nivel, canvas_nivel, pantalla_nivel):
 
             renderizacion(nivel, canvas_nivel, pantalla_nivel)
@@ -1260,12 +1295,15 @@ def funcion_jugar():
     
             continuar = continua_juego(nivel)
 
+            # La función continuará llamándose
             if continuar == 0:
                 pantalla_nivel.after(100, ciclo_juego, nivel, canvas_nivel, pantalla_nivel)
 
+            # Indicará que el jugador ha perdido, por lo que se mostrará el "frame_perdiste"
             elif continuar == -1:
                 frame_perdiste(nivel, canvas_nivel, pantalla_nivel)
 
+            # Indicará que el jugador sobrevivió los 60 segundos que dura el nivel, por lo que el "frame_de_victoria" se mostrará
             else:
                 frame_de_victoria(nivel, canvas_nivel, pantalla_nivel)
 
