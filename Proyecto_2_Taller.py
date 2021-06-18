@@ -979,7 +979,6 @@ def funcion_jugar():
             # Nombre jugador:
             nombre_de_jugador = nombre_jugador.get()
             
-            # Prueba -------------------------------------------------------
             # Creación del jugador:
             jugador = Jugador(nombre_de_jugador, 3, sprite_naveJugador, 620, 585)
 
@@ -995,7 +994,6 @@ def funcion_jugar():
 
             # Llamada para renderizar
             ciclo_juego(primer_nivel, canvas_nivel_1, pantalla_nivel_1)
-            # Prueba ------------------------------------------------------------
 
             # Función del botón "Atrás" de la pantalla del nivel 1:
             def atras_nivel_1():
@@ -1043,7 +1041,6 @@ def funcion_jugar():
             # Nombre jugador:
             nombre_de_jugador = nombre_jugador.get()
 
-            # Prueba -------------------------------------------------------
             # Creación del jugador:
             jugador = Jugador(nombre_de_jugador, 3, sprite_naveJugador, 620, 585)
 
@@ -1108,7 +1105,6 @@ def funcion_jugar():
             # Nombre jugador:
             nombre_de_jugador = nombre_jugador.get()
 
-            # Prueba -------------------------------------------------------
             # Creación del jugador:
             jugador = Jugador(nombre_de_jugador, 3, sprite_naveJugador, 620, 585)
 
