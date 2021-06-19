@@ -65,7 +65,60 @@ En esta sección, se explicará el funcionamiento de los métodos fundamentales 
  
 La función ``ciclo_juego`` es quizá, la función más importante del código, pues es la función de llevar a cabo, tal y como lo dice su nombre, el ciclo del juego. Esta función tiene tres funciones anidadas: La función ``renderizacion``, la función ``actualizar_juego`` y la función ``continua_juego``. Se podría decir que lo principal en esta función es el método ``continua_juego``, pues este método es el que se encarga de evaluar si juego continua, si el juego se perdió o si el juego se ganó, en pocas palabras, esta función es la que indica si el ciclo del juego se debe seguir repitiendo o no.  La función ``continua_juego`` se resume a tres condiciones: Si la vida del jugador es menor o igual a 0, retornará un -1 (el jugador perdió); si la función ``cronometro``, que es la función encargada de contar la cantidad de segundos transcurridos, es igual a 60, entonces retornará un 1 (el jugador ganó la partida); y si no se cumple ninguna de las dos condiciones anteriores, entonces retornará un 0 (la partida continua). Ahora, es importante saber que en la función ``ciclo_juego`` se tiene una variable de nombre “continuar” dentro de la cual se hace una llamada a la función ``continua_juego``, por lo tanto, esta variable, dependiendo de lo que esté pasando en la partida, puede almacenar un 0, un 1 y un -1. Estos números se necesitan para que las condiciones escritas en la función ``ciclo_juego`` puedan realizar unas comparaciones que decidirán si el ciclo se continúa repitiendo, si se muestra el “frame” de victoria o si se muestra el “frame” de “perdiste”. Si la variable “continuar” almacena un 0, entonces se hará una nueva llamada a la función ``ciclo_juego`` para que la partida se siga actualizando y renderizando. Si la variable “continuar” almacena un -1, entonces se dejará de llamar a la función ``ciclo_juego``, por lo que toda la acción en pantalla se detendrá y el nivel se dejará de actualizar y renderizar para posteriormente mostrar el “frame” de “perdiste”. Por otro lado, si la variable “continuar” almacena un 1, entonces ocurrirá exactamente lo mismo que cuando la variable almacena un -1, con la única diferencia de que el “frame” que se mostrará será el de victoria. Ahora, evidentemente el caso más importante es el del 0, ¿Qué ocurre cuando la variable “continuar” almacena un 0? Como se explicaba en líneas anteriores, la función ``ciclo_juego`` tiene tres funciones, por lo tanto, la variable “continuar” almacena un cero y la función ``ciclo_juego`` se vuelve a llamar, también se están volviendo a llamar a las tres funciones que antes se mencionaban, es decir, la función ``renderizacion`` continuará renderizando el movimiento del jugador, la función ``actualizar_juego``, que es una función únicamente compuesta por otros métodos, específicamente por los siguientes: La función ``movimiento_asteroides``, por la función ``asteroide_golpea_jugador`` , por la función ``actualiza_puntaje``  y por la función ``actualiza_labels``, continuará actualizando y llevando a cabo el movimiento de los asteroides, la verificación de colisiones entre la nave y los asteroides del nivel, la actualización de la información que el atributo “puntaje” del nivel almacena (función ``actualiza_puntaje``) y la actualización, en tiempo real, de la información que los “labels” de la pantalla de nivel muestran (“labels” de tiempo restante, de vidas del jugador y de puntaje). En resumen, la función ``ciclo_juego`` es la que lleva a cabo todo lo que ocurre en el nivel y durante la partida.     
 
- 
-
  ## Resultados
+ 
+ | __Pantalla inicial__ |
+ | -------------------------- |
+ | Esta pantalla inicial funciona como introducción y ofrece las opciones de continuar con el juego o salir del mismo. |
+ | ![](https://i.imgur.com/bA0z84R.png) |
+
+ | __Pantalla de selección inicial__ |
+ | -------------------------- |
+ | Desde esta pantalla el jugador puede acceder a las opciones de "about" para ver la información del juego, ver puntajes o seleccionar el nivel. |
+ | ![](https://i.imgur.com/Ac19Jzl.png) |
+
+ | __Pantalla about__ |
+ | -------------------------- |
+ | Desde esta pantalla el jugador puede informarse sobre la información del juego. |
+ | ![](https://i.imgur.com/Aukx1E6.png) |
+
+ | __Pantalla de ayuda__ |
+ | -------------------------- |
+ | Desde esta pantalla el jugador puede leer las instrucciones del juego. |
+ | ![](https://i.imgur.com/0M82QeB.png) |
+
+ | __Pantalla de selección de niveles__ |
+ | -------------------------- |
+ | Desde esta pantalla el jugador puede ingresar su nombre de jugador al igual que seleccionar un nivel específico o comenzar desde el nivel 1. |
+ | ![](https://i.imgur.com/pjofTVh.png) |
+
+ | __Nivel 1__ |
+ | -------------------------- |
+ | Se muestra la pantalla del nivel 1 en la cual aparece la nave del jugador, 3 asteroides, al igual que los indicadores de información pertinentes. |
+ | ![](https://i.imgur.com/nbUf87w.png) |
+
+ | __Nivel 2__ |
+ | -------------------------- |
+ | Se muestra la pantalla del nivel 2 en la cual aparece la nave del jugador, 4 asteroides, al igual que los indicadores de información pertinentes. |
+ | ![](https://i.imgur.com/p6kUNiE.png) |
+
+ | __Nivel 3__ |
+ | -------------------------- |
+ | Se muestra la pantalla del nivel 3 en la cual aparece la nave del jugador, 5 asteroides, al igual que los indicadores de información pertinentes. |
+ | ![](https://i.imgur.com/zp0TPQQ.png) |
+
+ | __¡Has perdido!__ |
+ | -------------------------- |
+ | Esta pantalla aparece cuando el jugador pierde todas sus vidas. Se ofrece la opción de intentar de nuevo o devolverse al menú de selección de niveles |
+ | ![](https://i.imgur.com/NVRLELX.png) |
+
+ | __¡Victoria!__ |
+ | -------------------------- |
+ | Esta pantalla aparece cuando el jugador supera el nivel. Se ofrece la opción de avanzar al siguiente nivel o devolverse al menú de selección de niveles |
+ | ![](https://i.imgur.com/zZRULqW.png) |
+
+ | __¡Victoria final!__ |
+ | -------------------------- |
+ | Esta pantalla aparece cuando el jugador supera el útimo nivel. Dado a que el jugador ha superado todos los niveles, sólo se ofrece la opción de devolverse al menú de selección de niveles |
+ | ![](https://i.imgur.com/hcE1qxP.png) |
  
