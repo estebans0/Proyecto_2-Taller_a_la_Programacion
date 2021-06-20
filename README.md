@@ -109,16 +109,16 @@ La función ``ciclo_juego`` es quizá, la función más importante del código, 
 
  | __¡Has perdido!__ |
  | -------------------------- |
- | Esta pantalla aparece cuando el jugador pierde todas sus vidas. Se ofrece la opción de intentar de nuevo o devolverse al menú de selección de niveles |
+ | Esta pantalla aparece cuando el jugador pierde todas sus vidas. Se ofrece la opción de intentar de nuevo o devolverse al menú de selección de niveles. |
  | ![](https://i.imgur.com/NVRLELX.png) |
 
  | __¡Victoria!__ |
  | -------------------------- |
- | Esta pantalla aparece cuando el jugador supera el nivel. Se ofrece la opción de avanzar al siguiente nivel o devolverse al menú de selección de niveles |
+ | Esta pantalla aparece cuando el jugador supera el nivel. Se ofrece la opción de avanzar al siguiente nivel o devolverse al menú de selección de niveles. |
  | ![](https://i.imgur.com/zZRULqW.png) |
 
  | __¡Victoria final!__ |
  | -------------------------- |
- | Esta pantalla aparece cuando el jugador supera el útimo nivel. Dado a que el jugador ha superado todos los niveles, sólo se ofrece la opción de devolverse al menú de selección de niveles |
+ | Esta pantalla aparece cuando el jugador supera el útimo nivel. Dado a que el jugador ha superado todos los niveles, sólo se ofrece la opción de devolverse al menú de selección de niveles. |
  | ![](https://i.imgur.com/hcE1qxP.png) |
  
